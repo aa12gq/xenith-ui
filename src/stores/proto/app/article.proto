@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package com.article.v1;
+
+option go_package = "goxenith/proto/article/v1;v1";
+
+enum ArticleStatus {
+    // 草稿
+    DRAFT = 0;
+    // 生效
+    EFFECT = 1;
+}
+
+message Article {
+  // 博文ID
+  uint64 id = 1;
+  // 博文作者
+  uint64 author_id = 2;
+  // 作者名称
+  string author_name = 3;
+  // 社区ID
+  uint64 community_id = 4;
+  // 社区名称
+  string community_name = 5;
+  // 博文标题
+  string title = 6;
+  // 博文摘要
+  string summary = 7;
+  // 博文内容
+  string content = 8;
+  // 博文点赞数量
+  int32 links = 9;
+  // 博文浏览量
+  int32 views = 10;
+  // 博文状态
+  ArticleStatus status = 11;
+}
+
+message CreateArticleRequest {
+  // 社区ID
+  // @gotags: valid:"community_id"
+  uint64 community_id = 1;
+  // @gotags: valid:"title"
+  // 博文标题
+  string title = 2;
+  // 博文摘要
+  // @gotags: valid:"summary"
+  string summary = 3;
+  // 博文内容
+  // @gotags: valid:"content"
+  string content = 4;
+  // 博文状态
+  // @gotags: valid:"status"
+  ArticleStatus status = 5;
+}
+
+message CreateArticleReply {}
+
+message ListArticleRequest {
+  // 社区ID
+  uint64 community_id  = 1;
+  // 博文标题
+  string title = 2;
+  // 分页页码
+  uint32 page_num = 3;
+  // 每页数量
+  uint32 page_size = 4;
+}
+
+message ListArticleReply {
+  // 博文
+  repeated Article data = 1;
+  // 总数量
+  uint32 total = 2;
+  // 当前返回数量
+  uint32 count = 3;
+  // 当前页
+  uint32 page = 4;
+};
