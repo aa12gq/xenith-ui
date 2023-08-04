@@ -1,13 +1,13 @@
 <template>
-    <el-row class="h-full flex items-center justify-center shadow-md">
-        <el-col :span="6" class="bg-purple-200"></el-col>
+    <el-row class="h-full flex items-center justify-center shadow-2xl bg-white">
+        <el-col :span="5" class="bg-purple-200"></el-col>
 
-        <el-col :span="12" class="flex h-full">
+        <el-col :span="13" class="flex h-full">
             <div class="flex items-center space-x-6 h-full">
                 <el-dropdown trigger="click" size="large" class="cursor-pointer h-full">
-                    <span class="el-dropdown-link flex items-center w-[5rem]">
-                        <img :src="currentCommunity.logo" class="w-6" />
-                        <span class="font-bold ml-2">{{ currentCommunity.name }}</span>
+                    <span class="el-dropdown-link flex items-center w-[5.5rem]">
+                        <img :src="currentCommunity.logo" class="w-8" />
+                        <span class="font-bold ml-2 text-md">{{ currentCommunity.name }}</span>
                         <el-icon class="el-icon--right w-4 h-4 ml-auto">
                             <arrow-down />
                         </el-icon>
@@ -26,7 +26,7 @@
                     </template>
                 </el-dropdown>
                 <div
-                    class="hidden md:flex xl:flex justify-center items-center text-sm text-[#6c6c6c] font-bold h-full"
+                    class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full"
                 >
                     <div class="menu-item">
                         <span class="whitespace-nowrap">社区</span>
@@ -88,7 +88,7 @@
                 </el-dropdown>
             </div>
         </el-col>
-        <el-col :span="6" class="pl-6"></el-col>
+        <el-col :span="5" class="pl-6"></el-col>
     </el-row>
 </template>
 
