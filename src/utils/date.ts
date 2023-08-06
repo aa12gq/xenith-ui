@@ -16,7 +16,6 @@ export function formatRelativeTime(timestamp: bigint) {
     return dayjs(date).fromNow();
 }
 
-
 export function TimestampFromDate(date: Date): any {
     return date && !isNaN(date.getTime()) ? Timestamp.fromDate(date) : null;
 }
@@ -27,7 +26,7 @@ export function TimestampFromDate(date: Date): any {
  * @param {boolean} includeTime - 是否包含时分秒
  * @returns {string} 格式化后的日期时间字符串
  */
-export function FormatDate(timestamp: bigint, includeTime: boolean) {
+export function formatDate(timestamp: bigint, includeTime: boolean) {
     const date = new Date(Number(timestamp) * 1000); // 将秒转换为毫秒
 
     const year = date.getFullYear();

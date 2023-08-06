@@ -17,7 +17,7 @@
                             <el-dropdown-item
                                 v-for="item in communitys"
                                 :key="item.id"
-                                @click="currentCommunity = item"
+                                @click="selectCommunity(item)"
                             >
                                 <img :src="item.logo" class="w-4 h-4 mr-2" />
                                 <span>{{ item.name }}</span>
@@ -95,7 +95,7 @@
 <script lang="ts" setup>
 import * as pb from '@/stores/proto/app/community';
 import { ListCommunity } from '@/stores/app/community';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, provide } from 'vue';
 
 const communitys = ref<pb.ListCommunityReply>(pb.ListCommunityReply.create());
 const currentCommunity = ref<pb.Community>(pb.Community.create({}));
@@ -145,11 +145,21 @@ const RefreshCommunity = () => {
         (d: pb.ListCommunityReply) => {
             communitys.value = d;
             currentCommunity.value = communitys.value[0];
+            selectCommunity(currentCommunity.value);
         },
         (why: { response: { data: any } }) => {
             console.log('获取社区列表失败', why.response.data);
         }
     );
+};
+
+const selectCommunity = (item: pb.Community) => {
+    currentCommunity.value = item;
+    let $favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+    if ($favicon !== null) {
+        $favicon.href = currentCommunity.value.logo;
+    }
+    document.title = currentCommunity.value.name + '技术社区';
 };
 
 onMounted(() => {
