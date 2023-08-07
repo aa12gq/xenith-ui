@@ -17,7 +17,12 @@
                             <el-dropdown-item
                                 v-for="item in communitys"
                                 :key="item.id"
-                                @click="selectCommunity(item)"
+                                @click="
+                                    () => {
+                                        store.selectCommunity(item);
+                                        $router.push(item.name.toLowerCase());
+                                    }
+                                "
                             >
                                 <img :src="item.logo" class="w-4 h-4 mr-2" />
                                 <span>{{ item.name }}</span>
@@ -93,12 +98,14 @@
 </template>
 
 <script lang="ts" setup>
+import { useCommunityStore } from '@/stores/app/community';
+import { storeToRefs } from 'pinia';
 import * as pb from '@/stores/proto/app/community';
 import { ListCommunity } from '@/stores/app/community';
 import { onMounted, ref, provide } from 'vue';
 
-const communitys = ref<pb.ListCommunityReply>(pb.ListCommunityReply.create());
-const currentCommunity = ref<pb.Community>(pb.Community.create({}));
+const store = useCommunityStore();
+const { communitys, currentCommunity } = storeToRefs(store);
 
 const state = ref('');
 interface LinkItem {
@@ -139,31 +146,8 @@ const loadAll = () => {
 
 const links = ref<LinkItem[]>([]);
 
-const RefreshCommunity = () => {
-    ListCommunity(
-        pb.ListCommunityRequest.create(),
-        (d: pb.ListCommunityReply) => {
-            communitys.value = d;
-            currentCommunity.value = communitys.value[0];
-            selectCommunity(currentCommunity.value);
-        },
-        (why: { response: { data: any } }) => {
-            console.log('获取社区列表失败', why.response.data);
-        }
-    );
-};
-
-const selectCommunity = (item: pb.Community) => {
-    currentCommunity.value = item;
-    let $favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
-    if ($favicon !== null) {
-        $favicon.href = currentCommunity.value.logo;
-    }
-    document.title = currentCommunity.value.name + '技术社区';
-};
-
 onMounted(() => {
-    RefreshCommunity();
+    store.RefreshCommunity();
     links.value = loadAll();
 });
 </script>

@@ -2,7 +2,7 @@
     <el-row class="w-full h-full bg-[#eef0f3]">
         <el-col :span="6" class="py-4 flex justify-end">
             <div class="h-full mr-6">
-                <div class="bg-white w-[15rem] !shadow-none mt-8 p-4">
+                <div class="bg-white w-[18rem] !shadow-none mt-8 p-4">
                     <div class="flex flex-col items-center w-full justify-center space-y-2 text-lg">
                         <div
                             class="hover:bg-slate-100 w-full h-10 flex items-center justify-center border-b bg-[#E8F0FE] text-[#2A73FA] space-x-2"
@@ -18,6 +18,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- BEGIN: 常用工具集 -->
+                <ToolList />
+                <!-- END: 常用工具集 -->
             </div>
         </el-col>
         <el-col :span="12" class="flex h-full py-12 flex-col">
@@ -44,11 +47,8 @@
             <el-card class="box-card w-[20rem] !shadow-none">
                 <template #header>
                     <div class="card-header border-b">
-                        <img
-                            src="https://cdn.learnku.com//uploads/communities/sNljssWWQoW6J88O9G37.png"
-                            class="w-8 mr-3"
-                        />
-                        <span>Go技术社区</span>
+                        <img :src="currentCommunity.logo" class="w-8 mr-3" />
+                        <span>{{ currentCommunity.name }}技术社区</span>
                     </div>
                 </template>
                 <div class="text-sm text-[#5D6367]">
@@ -87,9 +87,15 @@
 
 <script lang="ts" setup>
 import ArticleList from '@/components/ArticleList.vue';
+import ToolList from '@/components/ToolList.vue';
 import * as pb from '@/stores/proto/app/article';
 import { ListArticle } from '@/stores/app/article';
 import { onMounted, ref, watch } from 'vue';
+import { useCommunityStore } from '@/stores/app/community';
+import { storeToRefs } from 'pinia';
+
+const store = useCommunityStore();
+const { communitys, currentCommunity } = storeToRefs(store);
 
 const defaultTab = ref<string>('');
 const articles = ref<pb.ListArticleReply>(pb.ListArticleReply.create());
