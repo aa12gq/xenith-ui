@@ -6,7 +6,7 @@ export function ListArticle(
     success: (value: pb.ListArticleReply) => void,
     fail?: (why: any) => void
 ) {
-    const c = http<pb.ListArticleReply>('get', `/v1/go/articles/${req.page}`);
+    const c = http<pb.ListArticleReply>('get', `/v1/articles?page=${req.page}`);
     c.then(re => {
         return success(re);
     }).catch(fail);

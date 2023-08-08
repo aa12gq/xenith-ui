@@ -47,8 +47,11 @@
             <el-card class="box-card w-[20rem] !shadow-none">
                 <template #header>
                     <div class="card-header border-b">
-                        <img :src="currentCommunity.logo" class="w-8 mr-3" />
-                        <span>{{ currentCommunity.name }}技术社区</span>
+                        <img
+                            src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg"
+                            class="w-8 mr-3"
+                        />
+                        <span>A12技术社区</span>
                     </div>
                 </template>
                 <div class="text-sm text-[#5D6367]">
@@ -91,11 +94,6 @@ import ToolList from '@/components/ToolList.vue';
 import * as pb from '@/stores/proto/app/article';
 import { ListArticle } from '@/stores/app/article';
 import { onMounted, ref, watch } from 'vue';
-import { useCommunityStore } from '@/stores/app/community';
-import { storeToRefs } from 'pinia';
-
-const store = useCommunityStore();
-const { communitys, currentCommunity } = storeToRefs(store);
 
 const defaultTab = ref<string>('');
 const articles = ref<pb.ListArticleReply>(pb.ListArticleReply.create());

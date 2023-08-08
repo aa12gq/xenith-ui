@@ -4,32 +4,10 @@
 
         <el-col :span="13" class="flex h-full">
             <div class="flex items-center space-x-6 h-full">
-                <el-dropdown trigger="click" size="large" class="cursor-pointer h-full">
-                    <span class="el-dropdown-link flex items-center w-[5.5rem]">
-                        <img :src="currentCommunity.logo" class="w-8" />
-                        <span class="font-bold ml-2 text-md">{{ currentCommunity.name }}</span>
-                        <el-icon class="el-icon--right w-4 h-4 ml-auto">
-                            <arrow-down />
-                        </el-icon>
-                    </span>
-                    <template #dropdown>
-                        <el-dropdown-menu size="large">
-                            <el-dropdown-item
-                                v-for="item in communitys"
-                                :key="item.id"
-                                @click="
-                                    () => {
-                                        store.selectCommunity(item);
-                                        $router.push(item.name.toLowerCase());
-                                    }
-                                "
-                            >
-                                <img :src="item.logo" class="w-4 h-4 mr-2" />
-                                <span>{{ item.name }}</span>
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
+                <img
+                    src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg"
+                    class="w-8"
+                />
                 <div
                     class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full"
                 >
@@ -98,14 +76,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useCommunityStore } from '@/stores/app/community';
 import { storeToRefs } from 'pinia';
-import * as pb from '@/stores/proto/app/community';
-import { ListCommunity } from '@/stores/app/community';
 import { onMounted, ref, provide } from 'vue';
-
-const store = useCommunityStore();
-const { communitys, currentCommunity } = storeToRefs(store);
+import router from '@/router';
 
 const state = ref('');
 interface LinkItem {
@@ -147,7 +120,6 @@ const loadAll = () => {
 const links = ref<LinkItem[]>([]);
 
 onMounted(() => {
-    store.RefreshCommunity();
     links.value = loadAll();
 });
 </script>
