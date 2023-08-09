@@ -9,6 +9,7 @@
                 <div class="p-3">
                     <h4
                         class="text-lg font-semibold underline text-[#265CA1] hover:text-orange-500"
+                        @click="$router.push(`article/${item.id}`)"
                     >
                         <span class="cursor-pointer">
                             {{ item.title }}
@@ -16,10 +17,10 @@
                     </h4>
                     <div class="flex my-4 items-center">
                         <div
-                            v-if="item.authorAvatar"
+                            v-if="item?.author?.avatar"
                             class="rounded-lg w-[3rem] h-[2.5rem] overflow-hidden"
                         >
-                            <img class="w-full h-full object-cover" :src="item.authorAvatar" />
+                            <img class="w-full h-full object-cover" :src="item?.author?.avatar" />
                         </div>
                         <div class="w-full h-full whitespace-pre-wrap truncate">
                             <p class="text-gray-500 ml-4 flex-grow">
@@ -31,17 +32,17 @@
                         <div
                             class="mr-2 flex items-center text-[#21529C] hover:underline cursor-pointer"
                         >
-                            <span class="ml-1">{{ item.authorName }}</span>
+                            <span class="ml-1">{{ item?.author?.name }}</span>
                         </div>
                         <div>
                             <el-tooltip
                                 class="box-item"
                                 effect="dark"
-                                :content="'发布于 ' + formatDate(item.createdDate.seconds, true)"
+                                :content="'发布于 ' + formatDate(item?.createdDate!.seconds, true)"
                                 placement="top"
                             >
                                 <span class="text-gray-500 cursor-pointer">
-                                    {{ formatRelativeTime(item.createdDate.seconds) }}
+                                    {{ formatRelativeTime(item?.createdDate!.seconds) }}
                                 </span>
                             </el-tooltip>
                         </div>

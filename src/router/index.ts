@@ -1,12 +1,20 @@
 import AppVue from '@/App.vue';
-import HomeView from '@/views/Layout/index.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     {
         path: '/',
-        name: '/go',
         component: () => import('@/views/Layout/index.vue'),
+        children: [
+            {
+                path: '/',
+                component: () => import('@/views/Home/Home.vue'),
+            },
+            {
+                path: '/article/:id',
+                component: () => import('@/views/Article/Article.vue'),
+            },
+        ],
     },
 ];
 

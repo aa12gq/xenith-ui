@@ -11,7 +11,7 @@
                 <div
                     class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full"
                 >
-                    <div class="menu-item">
+                    <div class="menu-item" @click="$router.push('/')">
                         <span class="whitespace-nowrap">社区</span>
                     </div>
                     <div class="menu-item">
@@ -86,15 +86,16 @@ interface LinkItem {
     link: string;
 }
 
-let timeout: NodeJS.Timeout;
+let timeout: number | undefined;
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     const results = queryString ? links.value.filter(createFilter(queryString)) : links.value;
 
     clearTimeout(timeout);
-    timeout = setTimeout(() => {
+    timeout = window.setTimeout(() => {
         cb(results);
     }, 3000 * Math.random());
 };
+
 const createFilter = (queryString: string) => {
     return (restaurant: LinkItem) => {
         return restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;

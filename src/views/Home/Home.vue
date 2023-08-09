@@ -3,20 +3,7 @@
         <el-col :span="6" class="py-4 flex justify-end">
             <div class="h-full mr-6">
                 <div class="bg-white w-[18rem] !shadow-none mt-8 p-4">
-                    <div class="flex flex-col items-center w-full justify-center space-y-2 text-lg">
-                        <div
-                            class="hover:bg-slate-100 w-full h-10 flex items-center justify-center border-b bg-[#E8F0FE] text-[#2A73FA] space-x-2"
-                        >
-                            <el-icon><Sunny /></el-icon>
-                            <span>精华</span>
-                        </div>
-                        <div
-                            class="hover:bg-slate-100 w-full h-10 flex items-center justify-center border-b space-x-2"
-                        >
-                            <el-icon><Star /></el-icon>
-                            <span>关注</span>
-                        </div>
-                    </div>
+                    <Category />
                 </div>
                 <!-- BEGIN: 常用工具集 -->
                 <ToolList />
@@ -44,56 +31,26 @@
             <!-- END: 文章Tab栏目 -->
         </el-col>
         <el-col :span="6" class="pl-6 py-12">
-            <el-card class="box-card w-[20rem] !shadow-none">
-                <template #header>
-                    <div class="card-header border-b">
-                        <img
-                            src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg"
-                            class="w-8 mr-3"
-                        />
-                        <span>A12技术社区</span>
-                    </div>
-                </template>
-                <div class="text-sm text-[#5D6367]">
-                    Go（又称 Golang）是 Google
-                    开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言。Go
-                    被誉为是未来的服务器端编程语言。
-                </div>
-                <div class="flex items-center w-full justify-center mt-6">
-                    <el-button class="w-full px-2">
-                        <el-icon><EditPen /></el-icon>
-                        <span class="ml-2">发布内容</span>
-                    </el-button>
-                </div>
-            </el-card>
-            <el-card class="box-card w-[20rem] !shadow-none mt-8">
-                <template #header>
-                    <div class="card-header border-b flex justify-center">
-                        <span>友情链接</span>
-                    </div>
-                </template>
-
-                <div class="flex flex-col items-center w-full justify-center">
-                    <img
-                        class="h-16"
-                        src="https://cdn.learnku.com/assets/images/friends/ruby-china.png"
-                    />
-                    <img
-                        class="h-16 mt-4"
-                        src="https://cdn.learnku.com/uploads/banners/lHLqvDd0TQZD7CKdmguG.png"
-                    />
-                </div>
-            </el-card>
+            <!-- BEGIN:社区介绍 -->
+            <Introduce />
+            <!-- END:社区介绍 -->
+            <!-- BEGIN:友情链接 -->
+            <Links />
+            <!-- END:友情链接 -->
         </el-col>
     </el-row>
 </template>
 
 <script lang="ts" setup>
+import Introduce from './Introduce.vue';
+import Links from './Links.vue';
+import Category from './Category.vue';
 import ArticleList from '@/components/ArticleList.vue';
 import ToolList from '@/components/ToolList.vue';
 import * as pb from '@/stores/proto/app/article';
 import { ListArticle } from '@/stores/app/article';
 import { onMounted, ref, watch } from 'vue';
+import { ElMessage } from 'element-plus';
 
 const defaultTab = ref<string>('');
 const articles = ref<pb.ListArticleReply>(pb.ListArticleReply.create());
@@ -106,6 +63,7 @@ const RefreshArticle = () => {
             localStorage.setItem('selectedTab', defaultTab.value);
         },
         why => {
+            ElMessage.error(why);
             console.log('获取文章列表失败', why.response.data);
         }
     );

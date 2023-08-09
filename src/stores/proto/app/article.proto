@@ -3,8 +3,7 @@ syntax = "proto3";
 package com.article.v1;
 import "google/protobuf/timestamp.proto";
 
-
-option go_package = "goxenith/proto/article/v1;v1";
+option go_package = "goxenith/proto/app/article/v1;v1";
 
 enum ArticleStatus {
     // 草稿
@@ -14,23 +13,25 @@ enum ArticleStatus {
 }
 
 message Article {
+  message Author {
+    // 博文作者
+ // @inject_tag: json:"id"
+    uint64 id = 1;
+    // 作者名称
+    // @inject_tag: json:"name"
+    string name = 2;
+    // 作者头像
+    // @inject_tag: json:"avatar"
+    string avatar = 3;
+    // 作者发布文章数量
+    // @inject_tag: json:"total"
+    int32 article_total = 4;
+  }
   // 博文ID
   // @inject_tag: json:"id"
   uint64 id = 1;
-  // 博文作者
-  // @inject_tag: json:"authorId"
-  uint64 author_id = 2;
-  // 作者名称
-  // @inject_tag: json:"authorName"
-  string author_name = 3;
-  // @inject_tag: json:"authorAvatar"
-  string author_avatar = 4;
-  // 社区ID
-  // @inject_tag: json:"communityId"
-  uint64 community_id = 5;
-  // 社区名称
-  // @inject_tag: json:"communityName"
-  string community_name = 6;
+  // @inject_tag: json:"author"
+  Author author = 2;
   // 博文标题
   // @inject_tag: json:"title"
   string title = 7;
@@ -44,7 +45,7 @@ message Article {
   // @inject_tag: json:"links"
   int32 links = 10;
   // 博文浏览量
-  // @gotags: json:"views"
+  // @inject_tag: json:"views"
   int32 views = 11;
   // 博文状态
   // @inject_tag: json:"status"
@@ -58,9 +59,6 @@ message Article {
 }
 
 message CreateArticleRequest {
-  // 社区ID
-  // @inject_tag: valid:"communityId"
-  uint64 community_id = 1;
   // 博文标题
   // @inject_tag: valid:"title"
   string title = 2;
