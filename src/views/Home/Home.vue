@@ -1,6 +1,6 @@
 <template>
     <el-row class="w-full h-full bg-[#eef0f3]">
-        <el-col :span="6" class="py-4 flex justify-end">
+        <el-col :xs="6" :sm="6" :md="6" :xl="7" class="py-4 flex justify-end">
             <div class="h-full mr-6">
                 <div class="bg-white w-[18rem] !shadow-none mt-8 p-4">
                     <Category />
@@ -10,7 +10,7 @@
                 <!-- END: 常用工具集 -->
             </div>
         </el-col>
-        <el-col :span="12" class="flex h-full py-12 flex-col">
+        <el-col :xs="12" :sm="12" :md="12" :xl="10" class="flex h-full py-12 flex-col">
             <!-- BENGIN: 文章Tab栏目 -->
             <el-row class="body w-full">
                 <el-col :span="24" class="bg-white p-4 pt-0">
@@ -30,7 +30,7 @@
             </el-row>
             <!-- END: 文章Tab栏目 -->
         </el-col>
-        <el-col :span="6" class="pl-6 py-12">
+        <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-12">
             <!-- BEGIN:社区介绍 -->
             <Introduce />
             <!-- END:社区介绍 -->

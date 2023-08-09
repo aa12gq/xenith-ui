@@ -11,7 +11,7 @@ dayjs.extend(relativeTime); //使用相对时间插件
  * @param {bigint} timestamp - 要转换的时间戳（以秒为单位）
  * @returns {string} 相对时间字符串
  */
-export function formatRelativeTime(timestamp: bigint) {
+export function formatRelativeTime(timestamp: bigint | undefined) {
     const date = new Date(Number(timestamp) * 1000); // 将秒转换为毫秒
     return dayjs(date).fromNow();
 }

@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card w-[20rem] !shadow-none">
+ <el-card class="box-card w-[20rem] !shadow-none">
         <template #header>
             <div class="card-header border-b">
                 <img

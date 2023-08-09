@@ -1,72 +1,125 @@
 <template>
     <el-row class="w-full h-full bg-[#eef0f3]">
-        <el-col :span="6" class="py-4 flex justify-end">1</el-col>
-        <el-col :span="12" class="flex h-full py-12 flex-col bg-pink-100">
-            <!-- BENGIN: 文章Tab栏目 -->
-            <el-row class="body w-full"></el-row>
-            <!-- END: 文章Tab栏目 -->
-        </el-col>
-        <el-col :span="6" class="pl-6 py-12">
-            <el-card class="box-card w-[20rem] !shadow-none">
-                <template #header>
-                    <div class="card-header border-b">
-                        <img
-                            src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg"
-                            class="w-8 mr-3"
-                        />
-                        <span>A12技术社区</span>
-                    </div>
-                </template>
-                <div class="text-sm text-[#5D6367]">
-                    Go（又称 Golang）是 Google
-                    开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言。Go
-                    被誉为是未来的服务器端编程语言。
-                </div>
-                <div class="flex items-center w-full justify-center mt-6">
-                    <el-button class="w-full px-2">
-                        <el-icon><EditPen /></el-icon>
-                        <span class="ml-2">发布内容</span>
-                    </el-button>
-                </div>
-            </el-card>
-            <el-card class="box-card w-[20rem] !shadow-none mt-8">
-                <template #header>
-                    <div class="card-header border-b flex justify-center">
-                        <span>友情链接</span>
-                    </div>
-                </template>
+        <el-col :xs="6" :sm="6" :md="6" :xl="7" class="py-4 flex justify-end"></el-col>
+        <el-row class="w-full h-full bg-[#eef0f3]">
+            <el-col :xs="6" :sm="6" :md="6" :xl="7" class="py-4 flex justify-end"></el-col>
+            <el-col :xs="12" :sm="12" :md="12" :xl="10" class="flex h-full flex-col p-4">
+                <!-- BEGIN: 博文标题 -->
+                <el-row class="body h-full w-full bg-white p-4 flex flex-col">
+                    <div
+                        class="w-full border flex flex-col"
+                        style="border-bottom: 1px #cedbe5 solid"
+                    >
+                        <div class="py-4">
+                            <span class="text-xl border-b">{{ Article?.title }}</span>
+                        </div>
 
-                <div class="flex flex-col items-center w-full justify-center">
-                    <img
-                        class="h-16"
-                        src="https://cdn.learnku.com/assets/images/friends/ruby-china.png"
-                    />
-                    <img
-                        class="h-16 mt-4"
-                        src="https://cdn.learnku.com/uploads/banners/lHLqvDd0TQZD7CKdmguG.png"
-                    />
-                </div>
-            </el-card>
-        </el-col>
+                        <div class="pb-4 flex items-center">
+                            <img :src="Article.author?.avatar" class="w-5 mr-1 rounded-2xl" />
+                            <span>{{ Article.author?.name }}</span>
+                            <span class="mx-2">/</span>
+                            <el-icon><View /></el-icon>
+                            <span class="ml-2">{{ Article.views }}</span>
+                            <span class="mx-2">/</span>
+                            <el-icon><ChatDotSquare /></el-icon>
+                            <span class="ml-1">0</span>
+                            <span class="mx-2">/</span>
+                            <el-icon><Star /></el-icon>
+                            <span class="ml-1">{{ Article.links }}</span>
+                            <span class="mx-2">/</span>
+                            <el-tooltip
+                                v-if="Article && Article.createdDate"
+                                class="box-item"
+                                effect="dark"
+                                :content="
+                                    '发布于 ' + formatDate(Article.createdDate!.seconds || 0n, true)
+                                "
+                                placement="top"
+                            >
+                                <span class="text-gray-500 cursor-pointer">
+                                    创建于
+                                    {{ formatRelativeTime(Article.createdDate!.seconds || 0n) }}
+                                </span>
+                            </el-tooltip>
+                            <span class="mx-2">/</span>
+                            <el-tooltip
+                                v-if="Article && Article.updatedDate"
+                                class="box-item"
+                                effect="dark"
+                                :content="
+                                    '更新于 ' + formatDate(Article.updatedDate!.seconds || 0n, true)
+                                "
+                                placement="top"
+                            >
+                                <span class="text-gray-500 cursor-pointer">
+                                    更新于
+                                    {{ formatRelativeTime(Article.updatedDate!.seconds || 0n) }}
+                                </span>
+                            </el-tooltip>
+                        </div>
+                    </div>
+                    <div class="w-full overflow-hidden">
+                        <div v-html="renderedMarkdown"></div>
+                    </div>
+                </el-row>
+                <!-- END: 博文标题 -->
+            </el-col>
+            <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-12"></el-col>
+        </el-row>
+        <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-12"></el-col>
     </el-row>
 </template>
 
 <script lang="ts" setup>
+import MarkdownIt from 'markdown-it';
 import * as pb from '@/stores/proto/app/article';
 import { GetArticle } from '@/stores/app/article';
-import { onMounted, ref, watch } from 'vue';
+import { onActivated, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { formatRelativeTime, formatDate } from '@/utils/date';
 
-const getArticle = () => {
+const router = useRouter();
+const markdown = ref('');
+const renderedMarkdown = ref('');
+const md = new MarkdownIt();
+
+const Article = ref<pb.Article>(pb.Article.create());
+
+const fetchArticle = (id: string) => {
+    const parsedArticleId = BigInt(id);
+    console.log('id', parsedArticleId);
+
     GetArticle(
-        pb.GetArticleRequest.create({ id: BigInt(1n) }),
+        pb.GetArticleRequest.create({ id: parsedArticleId }),
         (d: pb.GetArticleReply) => {
-            console.log('测试', d);
+            Article.value = d.article!;
+            markdown.value = d.article?.content || '';
+            renderMarkdown();
         },
-        () => {}
+        why => {
+            console.log('获取文章详情失败', why);
+        }
     );
 };
 
 onMounted(() => {
-    getArticle();
+    const articleId = router.currentRoute.value.params.id;
+    if (Array.isArray(articleId)) {
+        fetchArticle(articleId[0]);
+    } else {
+        fetchArticle(articleId);
+    }
 });
+
+onActivated(() => {
+    const articleId = router.currentRoute.value.params.id;
+    if (Array.isArray(articleId)) {
+        fetchArticle(articleId[0]);
+    } else {
+        fetchArticle(articleId);
+    }
+});
+function renderMarkdown() {
+    renderedMarkdown.value = md.render(markdown.value);
+}
 </script>

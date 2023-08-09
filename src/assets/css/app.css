@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+ |--------------------------------------------------------------------------
+ | TailwindCSS Directives
+ |--------------------------------------------------------------------------
+ |
+ | Import TailwindCSS directives and swipe out at build-time with all of
+ | the styles it generates based on your configured design system.
+ |
+ | Please check this link for more details:
+ | https://tailwindcss.com/docs/installation#include-tailwind-in-your-css
+ |
+ */
+@import './_tailwind.css';

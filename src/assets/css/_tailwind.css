@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .shadow-rounded-3 {
+        box-shadow: 0 0 10px 6px rgb(var(--tw-shadow-color));
+    }
+
+    .shadow-rounded-1 {
+        box-shadow: 0 0 2px 2px rgb(var(--tw-shadow-color));
+    }
+
+    .text-2xs {
+        font-size: 0.65rem;
+        line-height: 0.80rem;
+    }
+
+    @media (min-width: 2230px) {
+        .container {
+            max-width: 2230px;
+        }
+
+        @for $i from 1 to 10 {
+            .px-scale-$i {
+                scale: calc(($i + 10)/10);
+            }
+        }
+    }
+}
