@@ -3,6 +3,7 @@
         <el-col :xs="6" :sm="6" :md="6" :xl="7" class="py-4 flex justify-end"></el-col>
         <el-row class="w-full h-full bg-[#eef0f3]">
             <el-col :xs="6" :sm="6" :md="6" :xl="7" class="py-4 flex justify-end"></el-col>
+            <!-- BEGIN: 博文内容 -->
             <el-col :xs="12" :sm="12" :md="12" :xl="10" class="flex h-full flex-col p-4">
                 <!-- BEGIN: 博文标题 -->
                 <el-row class="body h-full w-full bg-white p-4 flex flex-col">
@@ -58,13 +59,59 @@
                             </el-tooltip>
                         </div>
                     </div>
-                    <div class="w-full overflow-hidden">
-                        <div v-html="renderedMarkdown"></div>
-                    </div>
+
+                    <div
+                        class="select-text w-full bg-pink-100"
+                        v-html="renderedMarkdown"
+                        style="white-space: normal; word-break: break-word"
+                    ></div>
                 </el-row>
                 <!-- END: 博文标题 -->
             </el-col>
-            <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-12"></el-col>
+            <!-- END: 博文内容 -->
+            <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-4">
+                <div class="box-card w-[20rem] !shadow-none bg-white p-4">
+                    <div
+                        class="card-header border-b flex items-center p-2"
+                        style="border-bottom: 1px #e0e3ea solid"
+                    >
+                        <div class="flex flex-col">
+                            <span class="text-[#6C6C6C]">{{ Article.author?.name }}</span>
+                            <span class="text-xs mt-2 text-[#8E8E8E]">未填写</span>
+                        </div>
+
+                        <img :src="Article.author?.avatar" class="w-16 ml-auto rounded-full" />
+                    </div>
+
+                    <div class="w-full border-b py-4" style="border-bottom: 1px #e0e3ea solid">
+                        <div class="text-sm text-[#7D8183] flex justify-around text-center w-full">
+                            <div class="flex flex-col">
+                                <span>文章</span>
+                                <span>{{ Article.author?.articleTotal }}</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span>粉丝</span>
+                                <span>0</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span>喜欢</span>
+                                <span>0</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span>收藏</span>
+                                <span>0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center w-full justify-center mt-6">
+                        <el-button class="w-full px-2">
+                            <el-icon><Plus /></el-icon>
+                            <span class="ml-2">关注</span>
+                        </el-button>
+                    </div>
+                </div>
+            </el-col>
         </el-row>
         <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-12"></el-col>
     </el-row>
@@ -74,7 +121,6 @@
 import MarkdownIt from 'markdown-it';
 import * as pb from '@/stores/proto/app/article';
 import { GetArticle } from '@/stores/app/article';
-import { onActivated, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { formatRelativeTime, formatDate } from '@/utils/date';
 
@@ -87,7 +133,6 @@ const Article = ref<pb.Article>(pb.Article.create());
 
 const fetchArticle = (id: string) => {
     const parsedArticleId = BigInt(id);
-    console.log('id', parsedArticleId);
 
     GetArticle(
         pb.GetArticleRequest.create({ id: parsedArticleId }),

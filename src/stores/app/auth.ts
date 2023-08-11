@@ -1,5 +1,8 @@
 import * as pb from '@/stores/proto/app/auth';
 import { http } from '@/utils/request';
+import { defineStore } from 'pinia';
+
+export const userStore = defineStore('user', () => {});
 
 export function Login(
     req: pb.LoginByPasswordRequest,
