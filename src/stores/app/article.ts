@@ -33,3 +33,14 @@ export function CreateArticle(
         return success(re);
     }).catch(fail);
 }
+
+export function UpdateArticle(
+    req: pb.UpdateArticleRequest,
+    success: (value: pb.UpdateArticleReply) => void,
+    fail?: (why: any) => void
+) {
+    const c = http<pb.UpdateArticleReply>('put', `/v1/articles/update`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}

@@ -4,7 +4,7 @@
             <el-dialog
                 v-model="isDialogVisible"
                 title="请登录"
-                width="15%"
+                class="xl:w-[20%] sm:w-[30%]"
                 align-center
                 :modal="true"
             >
@@ -118,22 +118,21 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style scoped>
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 半透明的遮罩层颜色 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* 确保遮罩层位于其他内容之上 */
+    @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50;
 }
-
-/* 对话框样式，保持默认点击交互 */
 .el-dialog {
-    pointer-events: auto;
-}
+    @apply p-4;
 
-/* ...（其他样式，保持不变） */
+    @screen sm {
+        width: 30%;
+    }
+
+    @screen md {
+        width: 20%;
+    }
+
+    @screen lg {
+        width: 15%;
+    }
+}
 </style>

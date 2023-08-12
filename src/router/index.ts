@@ -19,6 +19,10 @@ const routes = [
                 component: () => import('@/views/Article/ArticleCreate.vue'),
             },
             {
+                path: '/articles/:id/edit',
+                component: () => import('@/views/Article/ArticleEdit.vue'),
+            },
+            {
                 path: '/auth/login',
                 component: () => import('@/views/Login/Login.vue'),
             },

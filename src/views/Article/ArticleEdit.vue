@@ -8,7 +8,7 @@
                         class="text-xl flex items-center justify-center pb-8 space-x-2 text-[#596064] font-blod select-text"
                     >
                         <el-icon><EditPen /></el-icon>
-                        <span>新建博文</span>
+                        <span>{{ ruleForm.title }}</span>
                     </div>
                     <el-form
                         ref="ruleFormRef"
@@ -26,10 +26,10 @@
                             ></el-input>
                         </el-form-item>
                     </el-form>
-                    <div class="overflow-auto" id="vditor" />
+                    <div class="h-full" id="vditor" />
                     <div class="bg-[#F7F7F8] h-16 mt-4 flex items-center space-x-4">
                         <el-button
-                            class="ml-6 space-x-2"
+                            class="ml-6 space-x-2 bg-[#35A9A4] hover:bg-[#35A9A4]"
                             type="primary"
                             @click="
                                 () => {
@@ -41,7 +41,7 @@
                             "
                         >
                             <el-icon><Position /></el-icon>
-                            <span>发布文章</span>
+                            <span>保存修改</span>
                         </el-button>
                         <span>or</span>
                         <el-button
@@ -71,16 +71,14 @@ import Vditor from 'vditor';
 import 'vditor/dist/index.css';
 import type { FormInstance, FormRules } from 'element-plus';
 import * as pb from '@/stores/proto/app/article';
-import { CreateArticle } from '@/stores/app/article';
+import { UpdateArticle } from '@/stores/app/article';
 import { showMessage } from '@/utils/toast';
 import router from '@/router';
-import { ucStore } from '@/stores/app/auth';
+import { GetArticle } from '@/stores/app/article';
 import { getToken } from '@/utils/auth';
 
-const store = ucStore();
-
 const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive<pb.CreateArticleRequest>(pb.CreateArticleRequest.create());
+let ruleForm = reactive<pb.UpdateArticleRequest>(pb.UpdateArticleRequest.create({}));
 
 const rules = reactive<FormRules<typeof ruleForm>>({
     title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -91,7 +89,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     formEl.validate(valid => {
         if (valid) {
             ruleForm.content = vditor.value!.getValue();
-            CreateArticle(
+            UpdateArticle(
                 ruleForm,
                 reply => {
                     showMessage('保存成功！');
@@ -115,6 +113,21 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 
 const vditor = ref<Vditor | null>(null);
+const fetchArticle = (id: string) => {
+    const parsedArticleId = BigInt(id);
+
+    GetArticle(
+        pb.GetArticleRequest.create({ id: parsedArticleId }),
+        (d: pb.GetArticleReply) => {
+            Object.assign(ruleForm, d.article!);
+            vditor.value!.setValue(ruleForm.content);
+        },
+        why => {
+            console.log('获取文章详情失败', why);
+        }
+    );
+};
+
 onMounted(() => {
     vditor.value = new Vditor('vditor', {
         mode: 'sv',
@@ -141,9 +154,26 @@ onMounted(() => {
             },
         },
     });
+    const { params } = useRoute();
+    const id = Array.isArray(params.id) ? params.id[0] : params.id;
+    if (id) {
+        fetchArticle(id);
+    } else {
+        console.log('缺少有效的文章ID');
+    }
     let token = getToken();
     if (token == '' || token == undefined) {
         router.push('/');
+    }
+});
+
+onActivated(() => {
+    const { params } = useRoute();
+    const id = Array.isArray(params.id) ? params.id[0] : params.id;
+    if (id) {
+        fetchArticle(id);
+    } else {
+        console.log('缺少有效的文章ID');
     }
 });
 </script>

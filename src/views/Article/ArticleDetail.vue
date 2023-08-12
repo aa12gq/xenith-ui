@@ -78,6 +78,7 @@
                             >
                                 <div
                                     class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
+                                    @click="$router.push(`/articles/${Article.id}/edit`)"
                                 >
                                     <el-icon><Edit /></el-icon>
                                     <span>编辑</span>

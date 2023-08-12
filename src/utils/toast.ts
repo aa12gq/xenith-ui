@@ -46,7 +46,7 @@ export function showPrompt(
 
 export function showMessage(
     message: string,
-    type: 'info' | 'success' | 'warning' | 'error' = 'info'
+    type: 'info' | 'success' | 'warning' | 'error' = 'success'
 ) {
     ElMessage({
         message,

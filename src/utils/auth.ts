@@ -12,5 +12,10 @@ export function setToken(token: any) {
 }
 
 export function removeToken(): boolean {
-    return cookie.remove(TokenKey);
+    try {
+        cookie.remove(TokenKey);
+        return true;
+    } catch (error) {
+        return false;
+    }
 }

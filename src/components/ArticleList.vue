@@ -22,10 +22,8 @@
                         >
                             <img class="w-full h-full object-cover" :src="item?.author?.avatar" />
                         </div>
-                        <div class="w-full h-full whitespace-pre-wrap truncate">
-                            <p class="text-gray-500 ml-4 flex-grow">
-                                {{ item.summary }}
-                            </p>
+                        <div class="w-full h-[2.5rem] whitespace-pre-wrap truncate">
+                            <p class="text-gray-500 ml-4 flex-grow">{{ item.summary }}</p>
                         </div>
                     </div>
                     <div class="flex items-center">

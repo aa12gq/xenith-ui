@@ -33,7 +33,7 @@ export const ucStore = defineStore(
                 res => {
                     console.log('test', res);
                     toast('登录成功');
-                    userInfo.value = res.userInfo;
+                    userInfo.value = res.userInfo!;
                 },
                 why => {
                     const { message } = why.response.data;

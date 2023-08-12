@@ -105,7 +105,20 @@ message GetArticleReply {
 }
 
 message UpdateArticleRequest {
-  Article article = 1;
+  // @inject_tag: json:"id"
+  uint64 id = 1;
+  // 博文标题
+  // @inject_tag: valid:"title"
+  string title = 2;
+  // 博文摘要
+  // @inject_tag: valid:"summary"
+  string summary = 3;
+  // 博文内容
+  // @inject_tag: valid:"content"
+  string content = 4;
+  // 博文状态
+  // @inject_tag: valid:"status"
+  ArticleStatus status = 5;
 }
 
 message UpdateArticleReply {}
