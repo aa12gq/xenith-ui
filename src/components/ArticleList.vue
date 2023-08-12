@@ -50,7 +50,7 @@
                         </div>
                         <div class="mx-4 flex items-center">
                             <el-icon><ChatDotSquare /></el-icon>
-                            <span class="ml-1">20</span>
+                            <span class="ml-1">0</span>
                         </div>
                         <div class="mr-2 flex items-center">
                             <el-icon><Star /></el-icon>

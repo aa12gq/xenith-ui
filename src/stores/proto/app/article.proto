@@ -122,3 +122,9 @@ message UpdateArticleRequest {
 }
 
 message UpdateArticleReply {}
+
+
+message Success {
+  bool success = 1;
+  string message = 2;
+}

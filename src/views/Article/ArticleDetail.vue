@@ -85,6 +85,7 @@
                                 </div>
                                 <div
                                     class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
+                                    @click="openDeleteBox"
                                 >
                                     <el-icon><Delete /></el-icon>
                                     <span>删除</span>
@@ -153,12 +154,15 @@
 <script lang="ts" setup>
 import MarkdownIt from 'markdown-it';
 import * as pb from '@/stores/proto/app/article';
-import { GetArticle } from '@/stores/app/article';
+import { GetArticle, DeleteArticle } from '@/stores/app/article';
 import { useRouter } from 'vue-router';
 import { formatRelativeTime, formatDate } from '@/utils/date';
 import hljs from 'highlight.js';
 import { ucStore } from '@/stores/app/auth';
 import { storeToRefs } from 'pinia';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { Delete } from '@element-plus/icons-vue';
+import { showMessage } from '@/utils/toast';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
@@ -215,4 +219,32 @@ onActivated(() => {
 function renderMarkdown() {
     renderedMarkdown.value = md.render(markdown.value);
 }
+
+const deleteArticle = () => {
+    DeleteArticle(
+        Article.value.id,
+        reply => {
+            showMessage(reply.message);
+            setTimeout(() => {
+                router.push('/');
+            }, 100);
+        },
+        why => {
+            const { message } = why.response.data;
+            showMessage(message, 'error');
+        }
+    );
+};
+
+const openDeleteBox = () => {
+    ElMessageBox.confirm('您确定要删除这篇文章吗?', 'Warning', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+    })
+        .then(() => {
+            deleteArticle();
+        })
+        .catch(() => {});
+};
 </script>

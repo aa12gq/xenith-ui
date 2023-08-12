@@ -44,3 +44,14 @@ export function UpdateArticle(
         return success(re);
     }).catch(fail);
 }
+
+export function DeleteArticle(
+    articleId: bigint,
+    success: (value: pb.Success) => void,
+    fail?: (why: any) => void
+) {
+    const c = http<pb.Success>('delete', `/v1/articles/${articleId}`);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}
