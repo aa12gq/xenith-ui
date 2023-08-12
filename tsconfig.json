@@ -1,6 +1,6 @@
 {
     "files": [],
-    "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+    "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/**/*.ts"],
     "compilerOptions": {
         "target": "ESNext",
         "useDefineForClassFields": true,

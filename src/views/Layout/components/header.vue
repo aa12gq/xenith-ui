@@ -49,23 +49,27 @@
                 </el-autocomplete>
             </div>
             <div class="flex items-center ml-auto">
-                <el-dropdown trigger="click" size="large" class="cursor-pointer h-full">
+                <div class="flex space-x-8" v-if="!userInfo.id">
+                    <div @click="store.setDialogModal(true)" class="cursor-pointer">登录</div>
+                    <div class="cursor-pointer">注册</div>
+                </div>
+                <el-dropdown v-else trigger="click" size="large" class="cursor-pointer h-full">
                     <span class="el-dropdown-link font-bold flex items-center w-[7.3rem] text-xl">
-                        <img
-                            src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/132366678901129217.jpg?x-oss-process=image/resize,m_pad,h_50,w_50"
-                            class="w-7 rounded-2xl"
-                        />
-                        <span class="ml-2 mt-1 text-lg">AA12</span>
+                        <img :src="userInfo.avatar" class="w-7 rounded-2xl" />
+                        <span class="ml-2 mt-1 text-lg">{{ userInfo.userName }}</span>
                         <el-icon class="el-icon--right">
                             <arrow-down />
                         </el-icon>
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
+                            <el-dropdown-item @click="$router.push('/articles/create')">
+                                新建博文
+                            </el-dropdown-item>
                             <el-dropdown-item>我的博客</el-dropdown-item>
                             <el-dropdown-item>个人中心</el-dropdown-item>
                             <el-dropdown-item>编辑资料</el-dropdown-item>
-                            <el-dropdown-item>退出</el-dropdown-item>
+                            <el-dropdown-item @click="store.logout()">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
@@ -79,6 +83,11 @@
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, provide } from 'vue';
 import router from '@/router';
+import { ucStore } from '@/stores/app/auth';
+import * as authPb from '@/stores/proto/app/auth';
+
+const store = ucStore();
+const { userInfo } = storeToRefs(store);
 
 const state = ref('');
 interface LinkItem {

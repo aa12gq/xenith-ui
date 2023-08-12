@@ -22,3 +22,14 @@ export function GetArticle(
         return success(re);
     }).catch(fail);
 }
+
+export function CreateArticle(
+    req: pb.CreateArticleRequest,
+    success: (value: pb.CreateArticleReply) => void,
+    fail?: (why: any) => void
+) {
+    const c = http<pb.CreateArticleReply>('post', `/v1/articles/create`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}

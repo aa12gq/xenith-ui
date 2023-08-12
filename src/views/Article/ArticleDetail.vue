@@ -15,9 +15,11 @@
                             <span class="text-xl border-b">{{ Article?.title }}</span>
                         </div>
 
-                        <div class="pb-4 flex items-center">
+                        <div class="pb-4 flex items-center text-[#A4A8A6]">
                             <img :src="Article.author?.avatar" class="w-5 mr-1 rounded-2xl" />
-                            <span>{{ Article.author?.name }}</span>
+                            <span class="hover:text-[#2174F4] cursor-pointer">
+                                {{ Article.author?.name }}
+                            </span>
                             <span class="mx-2">/</span>
                             <el-icon><View /></el-icon>
                             <span class="ml-2">{{ Article.views }}</span>
@@ -37,14 +39,27 @@
                                 "
                                 placement="top"
                             >
-                                <span class="text-gray-500 cursor-pointer">
+                                <span class="cursor-pointer">
                                     创建于
                                     {{ formatRelativeTime(Article.createdDate!.seconds || 0n) }}
                                 </span>
                             </el-tooltip>
-                            <span class="mx-2">/</span>
+                            <span
+                                class="mx-2"
+                                v-if="
+                                    Article &&
+                                    Article.updatedDate &&
+                                    Article.updatedDate.seconds != Article.createdDate?.seconds
+                                "
+                            >
+                                /
+                            </span>
                             <el-tooltip
-                                v-if="Article && Article.updatedDate"
+                                v-if="
+                                    Article &&
+                                    Article.updatedDate &&
+                                    Article.updatedDate.seconds != Article.createdDate?.seconds
+                                "
                                 class="box-item"
                                 effect="dark"
                                 :content="
@@ -57,11 +72,28 @@
                                     {{ formatRelativeTime(Article.updatedDate!.seconds || 0n) }}
                                 </span>
                             </el-tooltip>
+                            <div
+                                class="ml-4 space-x-4 flex"
+                                v-if="Article.author?.id == userInfo.id"
+                            >
+                                <div
+                                    class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
+                                >
+                                    <el-icon><Edit /></el-icon>
+                                    <span>编辑</span>
+                                </div>
+                                <div
+                                    class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
+                                >
+                                    <el-icon><Delete /></el-icon>
+                                    <span>删除</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div
-                        class="select-text w-full bg-pink-100"
+                        class="select-text w-full"
                         v-html="renderedMarkdown"
                         style="white-space: normal; word-break: break-word"
                     ></div>
@@ -123,11 +155,26 @@ import * as pb from '@/stores/proto/app/article';
 import { GetArticle } from '@/stores/app/article';
 import { useRouter } from 'vue-router';
 import { formatRelativeTime, formatDate } from '@/utils/date';
+import hljs from 'highlight.js';
+import { ucStore } from '@/stores/app/auth';
+import { storeToRefs } from 'pinia';
 
+const store = ucStore();
+const { userInfo } = storeToRefs(store);
 const router = useRouter();
 const markdown = ref('');
 const renderedMarkdown = ref('');
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return hljs.highlight(lang, str).value;
+            } catch (__) {}
+        }
+
+        return '';
+    },
+});
 
 const Article = ref<pb.Article>(pb.Article.create());
 

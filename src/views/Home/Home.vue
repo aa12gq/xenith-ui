@@ -60,11 +60,12 @@ const RefreshArticle = () => {
         pb.ListArticleRequest.create({ page: 1 }),
         (d: pb.ListArticleReply) => {
             articles.value = d;
+            console.log('测试', d);
             localStorage.setItem('selectedTab', defaultTab.value);
         },
         why => {
             ElMessage.error(why);
-            console.log('获取文章列表失败', why.response.data);
+            console.log('获取文章列表失败', why);
         }
     );
 };
@@ -86,7 +87,5 @@ onMounted(() => {
     RefreshArticle();
 });
 </script>
-
-html
 
 <style scoped></style>
