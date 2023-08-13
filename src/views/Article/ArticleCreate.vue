@@ -4,29 +4,16 @@
         <el-col :xs="12" :xl="18" class="w-full h-full bg-[#eef0f3]">
             <el-col class="flex h-full flex-col p-12">
                 <div class="w-full h-full bg-white p-6">
-                    <div
-                        class="text-xl flex items-center justify-center pb-8 space-x-2 text-[#596064] font-blod select-text"
-                    >
+                    <div class="text-xl flex items-center justify-center pb-8 space-x-2 text-[#596064] font-blod select-text">
                         <el-icon><EditPen /></el-icon>
                         <span>新建博文</span>
                     </div>
-                    <el-form
-                        ref="ruleFormRef"
-                        :model="ruleForm"
-                        status-icon
-                        :rules="rules"
-                        class="demo-ruleForm"
-                    >
+                    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="demo-ruleForm">
                         <el-form-item prop="title">
-                            <el-input
-                                class="h-10"
-                                v-model="ruleForm.title"
-                                type="text"
-                                placeholder="标题"
-                            ></el-input>
+                            <el-input class="h-10" v-model="ruleForm.title" type="text" placeholder="标题"></el-input>
                         </el-form-item>
                     </el-form>
-                    <div class="overflow-auto" id="vditor" />
+                    <mavon-editor class="h-full max-h-[800px]" v-model="ruleForm.content" />
                     <div class="bg-[#F7F7F8] h-16 mt-4 flex items-center space-x-4">
                         <el-button
                             class="ml-6 space-x-2"
@@ -67,8 +54,6 @@
 </template>
 
 <script lang="ts" setup>
-import Vditor from 'vditor';
-import 'vditor/dist/index.css';
 import type { FormInstance, FormRules } from 'element-plus';
 import * as pb from '@/stores/proto/app/article';
 import { CreateArticle } from '@/stores/app/article';
@@ -90,7 +75,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     formEl.validate(valid => {
         if (valid) {
-            ruleForm.content = vditor.value!.getValue();
             CreateArticle(
                 ruleForm,
                 reply => {
@@ -98,7 +82,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                     setTimeout(() => {
                         // 清空数据
                         ruleForm.title = '';
-                        vditor.value!.setValue('');
                         router.back();
                     }, 500);
                 },
@@ -114,33 +97,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     });
 };
 
-const vditor = ref<Vditor | null>(null);
 onMounted(() => {
-    vditor.value = new Vditor('vditor', {
-        mode: 'sv',
-        height: '80%',
-        after: () => {
-            vditor.value!.setValue('');
-        },
-        upload: {
-            accept: 'image/*,.mp3, .wav, .rar',
-            token: 'test',
-            url: '/api/upload/editor',
-            linkToImgUrl: '/api/upload/fetch',
-            filename(name) {
-                return name
-                    .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
-                    .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
-                    .replace('/\\s/g', '');
-            },
-        },
-        preview: {
-            hljs: {
-                lineNumber: true,
-                enable: false,
-            },
-        },
-    });
     let token = getToken();
     if (token == '' || token == undefined) {
         router.push('/');
@@ -149,7 +106,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#vditor {
+#editor {
+    margin: auto;
+    width: 80%;
     max-height: 1000px;
     overflow-y: auto;
 }

@@ -1,42 +1,42 @@
 {
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[less]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "printWidth": 100,
-  "overrides": [
-    {
-      "files": ".prettierrc",
-      "options": { "parser": "json" }
-    }
-  ],
-  "tabWidth": 4,
-  "useTabs": false,
-  "semi": true,
-  "singleQuote": true,
-  "proseWrap": "preserve",
-  "arrowParens": "avoid",
-  "bracketSpacing": true,
-  "disableLanguages": ["vue"],
-  "endOfLine": "auto",
-  "eslintIntegration": false,
-  "htmlWhitespaceSensitivity": "ignore",
-  "ignorePath": ".prettierignore",
-  "jsxBracketSameLine": false,
-  "jsxSingleQuote": false,
-  "requireConfig": false,
-  "stylelintIntegration": false,
-  "trailingComma": "es5",
-  "prettier.tslintIntegration": false
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[less]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "printWidth": 200,
+    "overrides": [
+        {
+            "files": ".prettierrc",
+            "options": { "parser": "json" }
+        }
+    ],
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "disableLanguages": ["vue"],
+    "endOfLine": "auto",
+    "eslintIntegration": false,
+    "htmlWhitespaceSensitivity": "ignore",
+    "ignorePath": ".prettierignore",
+    "jsxBracketSameLine": false,
+    "jsxSingleQuote": false,
+    "requireConfig": false,
+    "stylelintIntegration": false,
+    "trailingComma": "es5",
+    "prettier.tslintIntegration": false
 }

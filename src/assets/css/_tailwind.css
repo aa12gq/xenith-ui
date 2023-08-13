@@ -13,7 +13,7 @@
 
     .text-2xs {
         font-size: 0.65rem;
-        line-height: 0.80rem;
+        line-height: 0.8rem;
     }
 
     @media (min-width: 2230px) {
@@ -23,7 +23,7 @@
 
         @for $i from 1 to 10 {
             .px-scale-$i {
-                scale: calc(($i + 10)/10);
+                scale: calc(($i + 10) / 10);
             }
         }
     }

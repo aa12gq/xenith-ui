@@ -163,23 +163,35 @@ import { storeToRefs } from 'pinia';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { Delete } from '@element-plus/icons-vue';
 import { showMessage } from '@/utils/toast';
+import ClipboardJS from 'clipboard';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
 const router = useRouter();
 const markdown = ref('');
 const renderedMarkdown = ref('');
-const md = new MarkdownIt({
-    highlight: function (str, lang) {
+let md = new MarkdownIt({
+    html: false,
+    xhtmlOut: false,
+    breaks: false,
+    langPrefix: 'language-',
+    linkify: false,
+    typographer: false,
+    quotes: '“”‘’',
+    highlight: (str, lang) => {
         if (lang && hljs.getLanguage(lang)) {
             try {
-                return hljs.highlight(lang, str).value;
+                return (
+                    '<pre class="hljs"><code>' +
+                    hljs.highlight(lang, str, true).value +
+                    '</code></pre>'
+                );
             } catch (__) {}
         }
 
-        return '';
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
     },
-});
+}) as MarkdownIt;
 
 const Article = ref<pb.Article>(pb.Article.create());
 
@@ -216,8 +228,13 @@ onActivated(() => {
         fetchArticle(articleId);
     }
 });
+
 function renderMarkdown() {
     renderedMarkdown.value = md.render(markdown.value);
+    const copyBtns = document.querySelectorAll('.copy-btn');
+    copyBtns.forEach(btn => {
+        new ClipboardJS(btn);
+    });
 }
 
 const deleteArticle = () => {

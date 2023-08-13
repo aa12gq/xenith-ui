@@ -12,8 +12,8 @@ import '@/assets/css/app.css';
 import '@/assets/css/common.css';
 import '@/assets/css/preflight.css';
 import 'nprogress/nprogress.css';
-
-import 'normalize.css';
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
 
 const app = createApp(App);
 app.use(createPinia().use(piniaPluginPersistedstate));
@@ -22,5 +22,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(ElementPlus);
 app.use(router);
-
+app.use(mavonEditor);
 app.mount('#app');
