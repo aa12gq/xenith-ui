@@ -7,17 +7,14 @@
             <el-col :xs="12" :sm="12" :md="12" :xl="10" class="flex h-full flex-col p-4">
                 <!-- BEGIN: 博文标题 -->
                 <el-row class="body h-full w-full bg-white p-4 flex flex-col">
-                    <div
-                        class="w-full border flex flex-col"
-                        style="border-bottom: 1px #cedbe5 solid"
-                    >
+                    <div class="w-full border flex flex-col" style="border-bottom: 1px #cedbe5 solid">
                         <div class="py-4">
                             <span class="text-xl border-b">{{ Article?.title }}</span>
                         </div>
 
                         <div class="pb-4 flex items-center text-[#A4A8A6]">
                             <img :src="Article.author?.avatar" class="w-5 mr-1 rounded-2xl" />
-                            <span class="hover:text-[#2174F4] cursor-pointer">
+                            <span class="hover:text-[#2174F4] cursor-pointer" @click="$router.push(`/users/${Article.author?.id}`)">
                                 {{ Article.author?.name }}
                             </span>
                             <span class="mx-2">/</span>
@@ -34,9 +31,7 @@
                                 v-if="Article && Article.createdDate"
                                 class="box-item"
                                 effect="dark"
-                                :content="
-                                    '发布于 ' + formatDate(Article.createdDate!.seconds || 0n, true)
-                                "
+                                :content="'发布于 ' + formatDate(Article.createdDate!.seconds || 0n, true)"
                                 placement="top"
                             >
                                 <span class="cursor-pointer">
@@ -44,27 +39,12 @@
                                     {{ formatRelativeTime(Article.createdDate!.seconds || 0n) }}
                                 </span>
                             </el-tooltip>
-                            <span
-                                class="mx-2"
-                                v-if="
-                                    Article &&
-                                    Article.updatedDate &&
-                                    Article.updatedDate.seconds != Article.createdDate?.seconds
-                                "
-                            >
-                                /
-                            </span>
+                            <span class="mx-2" v-if="Article && Article.updatedDate && Article.updatedDate.seconds != Article.createdDate?.seconds">/</span>
                             <el-tooltip
-                                v-if="
-                                    Article &&
-                                    Article.updatedDate &&
-                                    Article.updatedDate.seconds != Article.createdDate?.seconds
-                                "
+                                v-if="Article && Article.updatedDate && Article.updatedDate.seconds != Article.createdDate?.seconds"
                                 class="box-item"
                                 effect="dark"
-                                :content="
-                                    '更新于 ' + formatDate(Article.updatedDate!.seconds || 0n, true)
-                                "
+                                :content="'更新于 ' + formatDate(Article.updatedDate!.seconds || 0n, true)"
                                 placement="top"
                             >
                                 <span class="text-gray-500 cursor-pointer">
@@ -72,21 +52,12 @@
                                     {{ formatRelativeTime(Article.updatedDate!.seconds || 0n) }}
                                 </span>
                             </el-tooltip>
-                            <div
-                                class="ml-4 space-x-4 flex"
-                                v-if="Article.author?.id == userInfo.id"
-                            >
-                                <div
-                                    class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
-                                    @click="$router.push(`/articles/${Article.id}/edit`)"
-                                >
+                            <div class="ml-4 space-x-4 flex" v-if="Article.author?.id == userInfo.id">
+                                <div class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]" @click="$router.push(`/articles/${Article.id}/edit`)">
                                     <el-icon><Edit /></el-icon>
                                     <span>编辑</span>
                                 </div>
-                                <div
-                                    class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]"
-                                    @click="openDeleteBox"
-                                >
+                                <div class="flex items-center space-x-1 cursor-pointer hover:underline hover:text-[#2174F4]" @click="openDeleteBox">
                                     <el-icon><Delete /></el-icon>
                                     <span>删除</span>
                                 </div>
@@ -94,21 +65,14 @@
                         </div>
                     </div>
 
-                    <div
-                        class="select-text w-full"
-                        v-html="renderedMarkdown"
-                        style="white-space: normal; word-break: break-word"
-                    ></div>
+                    <div class="select-text w-full" v-html="renderedMarkdown" style="white-space: normal; word-break: break-word"></div>
                 </el-row>
                 <!-- END: 博文标题 -->
             </el-col>
             <!-- END: 博文内容 -->
             <el-col :xs="6" :sm="6" :md="6" :xl="7" class="pl-6 py-4">
                 <div class="box-card w-[20rem] !shadow-none bg-white p-4">
-                    <div
-                        class="card-header border-b flex items-center p-2"
-                        style="border-bottom: 1px #e0e3ea solid"
-                    >
+                    <div class="card-header border-b flex items-center p-2" style="border-bottom: 1px #e0e3ea solid">
                         <div class="flex flex-col">
                             <span class="text-[#6C6C6C]">{{ Article.author?.name }}</span>
                             <span class="text-xs mt-2 text-[#8E8E8E]">未填写</span>
@@ -181,11 +145,7 @@ let md = new MarkdownIt({
     highlight: (str, lang) => {
         if (lang && hljs.getLanguage(lang)) {
             try {
-                return (
-                    '<pre class="hljs"><code>' +
-                    hljs.highlight(lang, str, true).value +
-                    '</code></pre>'
-                );
+                return '<pre class="hljs"><code>' + hljs.highlight(lang, str, true).value + '</code></pre>';
             } catch (__) {}
         }
 

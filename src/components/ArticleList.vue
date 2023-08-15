@@ -3,7 +3,7 @@
         <div class="space-y-3">
             <div class="rounded-lg shadow-sm bg-white" v-for="(item, index) in props.articles.data" :key="index">
                 <div class="p-3">
-                    <h4 class="text-lg font-semibold underline text-[#265CA1] hover:text-orange-500" @click="$router.push(`articles/${item.id}`)">
+                    <h4 class="text-lg max-w-fit font-semibold underline text-[#265CA1] hover:text-orange-500" @click="$router.push(`articles/${item.id}`)">
                         <span class="cursor-pointer">
                             {{ item.title }}
                         </span>

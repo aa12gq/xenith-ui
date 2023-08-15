@@ -67,9 +67,9 @@ const isLastItem = (index: number) => index === articles.value.count - 1;
                 <!-- BEGIN:博文 -->
                 <div class="bg-white mt-4 p-6">
                     <div class="text-lg text-[#9B9B9B] flex flex-col space-x-1">
-                        <div class="mb-2">
+                        <div class="mb-2 flex items-center">
                             <el-icon><Management /></el-icon>
-                            <span>{{ userInfo.userName }}发布的博文</span>
+                            <span class="ml-1">{{ userInfo.userName }}发布的博文</span>
                         </div>
                         <div class="">
                             <div class="" :style="{ 'border-bottom': isLastItem(index) ? 'none' : '1px #e0e3ea solid' }" v-for="(item, index) in articles.data" :key="index">

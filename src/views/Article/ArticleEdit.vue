@@ -6,7 +6,7 @@
                 <div class="w-full h-full bg-white p-6">
                     <div class="text-xl flex items-center justify-center pb-8 space-x-2 text-[#596064] font-blod select-text">
                         <el-icon><EditPen /></el-icon>
-                        <span>{{ ruleForm.title }}</span>
+                        <span>{{ title }}</span>
                     </div>
                     <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="demo-ruleForm">
                         <el-form-item prop="title">
@@ -64,6 +64,7 @@ import { getToken } from '@/utils/auth';
 
 const ruleFormRef = ref<FormInstance>();
 let ruleForm = reactive<pb.UpdateArticleRequest>(pb.UpdateArticleRequest.create({}));
+let title = '';
 
 const rules = reactive<FormRules<typeof ruleForm>>({
     title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -102,6 +103,7 @@ const fetchArticle = (id: string) => {
         pb.GetArticleRequest.create({ id: parsedArticleId }),
         (d: pb.GetArticleReply) => {
             Object.assign(ruleForm, d.article!);
+            title = ruleForm.title;
         },
         why => {
             console.log('获取文章详情失败', why);
