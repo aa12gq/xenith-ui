@@ -60,22 +60,14 @@ export const ucStore = defineStore(
     }
 );
 
-export function Login(
-    req: pb.LoginByPasswordRequest,
-    success: (value: pb.LoginByPasswordReply) => void,
-    fail?: (why: any) => void
-) {
+export function Login(req: pb.LoginByPasswordRequest, success: (value: pb.LoginByPasswordReply) => void, fail?: (why: any) => void) {
     const c = http<pb.LoginByPasswordReply>('post', '/v1/auth/login/using-password', req);
     c.then(re => {
         return success(re);
     }).catch(fail);
 }
 
-export function GetUserInfo(
-    req: bigint,
-    success: (value: pb.GetUserInfoReply) => void,
-    fail?: (why: any) => void
-) {
+export function GetUserInfo(req: bigint, success: (value: pb.GetUserInfoReply) => void, fail?: (why: any) => void) {
     const c = http<pb.GetUserInfoReply>('get', `/v1/users/${req}`, {});
     c.then(re => {
         return success(re);

@@ -11,3 +11,8 @@
  |
  */
 @import './_tailwind.css';
+@import 'mavon-editor/dist/css/index.css';
+@import 'normalize.css';
+@import 'nprogress/nprogress.css';
+@import '@/assets/css/common.css';
+@import '@/assets/css/preflight.css';

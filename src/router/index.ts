@@ -26,6 +26,20 @@ const routes = [
                 path: '/auth/login',
                 component: () => import('@/views/Login/Login.vue'),
             },
+            {
+                path: '/users',
+                component: () => import('@/views/UC/Home.vue'),
+                children: [
+                    {
+                        path: '/users/:id',
+                        component: () => import('@/views/UC/Profile.vue'),
+                    },
+                    {
+                        path: '/users/:id/articles',
+                        component: () => import('@/views/UC/Articles.vue'),
+                    },
+                ],
+            },
         ],
     },
 ];

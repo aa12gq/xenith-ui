@@ -1,16 +1,11 @@
 <template>
-    <el-row class="h-full flex items-center justify-center shadow-2xl bg-white">
+    <el-row class="h-full flex items-center justify-center shadow-md bg-white">
         <el-col :span="5" class="bg-purple-200"></el-col>
 
         <el-col :span="13" class="flex h-full">
             <div class="flex items-center space-x-6 h-full">
-                <img
-                    src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg"
-                    class="w-8"
-                />
-                <div
-                    class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full"
-                >
+                <img src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg" class="w-8" />
+                <div class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full">
                     <div class="menu-item" @click="$router.push('/')">
                         <span class="whitespace-nowrap">社区</span>
                     </div>
@@ -30,13 +25,7 @@
                         <span class="whitespace-nowrap">前端</span>
                     </div>
                 </div>
-                <el-autocomplete
-                    class="hidden xl:flex"
-                    v-model="state"
-                    :fetch-suggestions="querySearchAsync"
-                    placeholder="社区搜索"
-                    @select="handleSelect"
-                >
+                <el-autocomplete class="hidden xl:flex" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="社区搜索" @select="handleSelect">
                     <template #suffix>
                         <el-icon class="el-input__icon">
                             <search />
@@ -63,11 +52,9 @@
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item @click="$router.push('/articles/create')">
-                                新建博文
-                            </el-dropdown-item>
+                            <el-dropdown-item @click="$router.push('/articles/create')">新建博文</el-dropdown-item>
                             <el-dropdown-item>我的博客</el-dropdown-item>
-                            <el-dropdown-item>个人中心</el-dropdown-item>
+                            <el-dropdown-item @click="router.push(`/users/${userInfo.id}`)">个人中心</el-dropdown-item>
                             <el-dropdown-item>编辑资料</el-dropdown-item>
                             <el-dropdown-item @click="store.logout()">退出</el-dropdown-item>
                         </el-dropdown-menu>

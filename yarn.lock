@@ -1227,11 +1227,6 @@ didyoumean@^1.2.2:
   resolved "https://registry.npmmirror.com/didyoumean/-/didyoumean-1.2.2.tgz"
   integrity sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==
 
-diff-match-patch@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmmirror.com/diff-match-patch/-/diff-match-patch-1.0.5.tgz#abb584d5f10cd1196dfc55aa03701592ae3f7b37"
-  integrity sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==
-
 diff@^4.0.1:
   version "4.0.2"
   resolved "https://registry.npmmirror.com/diff/-/diff-4.0.2.tgz"
@@ -2253,6 +2248,11 @@ markdown-it@^12.0.2:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
+marked@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npmmirror.com/marked/-/marked-7.0.2.tgz#7df34d9393bce63d175bcbdbe1de7b6727b3088d"
+  integrity sha512-ADEBjnCHOrsLoV7JPvUNWtELZ0b4SeIALhrfxuA9uhS3hw2PCezROoFduIqMOjeagBPto732+YC5tZHBMQRdqg==
+
 mavon-editor@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmmirror.com/mavon-editor/-/mavon-editor-3.0.1.tgz#0c2660569ded5b29e59d0e429af61eb618783a90"
@@ -2407,6 +2407,11 @@ normalize-wheel-es@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/normalize-wheel-es/-/normalize-wheel-es-1.2.0.tgz"
   integrity sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw==
+
+normalize.css@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmmirror.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
+  integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
 npm-run-all@^4.1.5:
   version "4.1.5"
@@ -3338,13 +3343,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-vditor@^3.9.4:
-  version "3.9.4"
-  resolved "https://registry.npmmirror.com/vditor/-/vditor-3.9.4.tgz#eaf3797cbacbfb10404d71c18173c0255cb04a64"
-  integrity sha512-w7k7Xmdgs5LUTnXWoWyqCqlX+XC+yhJi2kRHzalho47rztp8m2Bi7wMBELjjjUTcoCHbQAatug0Awb/rNYfCwQ==
-  dependencies:
-    diff-match-patch "^1.0.5"
 
 vite@^4.4.6:
   version "4.4.7"

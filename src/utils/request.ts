@@ -35,7 +35,6 @@ instance.interceptors.request.use(
     function (config: any) {
         // 在发送请求之前做些什么
         const token = getToken();
-        console.log('请求前获取的token', token);
 
         if (token && config.headers) {
             config.headers.Authorization = `Bearer ${token}`;
