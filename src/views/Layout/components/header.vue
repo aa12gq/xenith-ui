@@ -1,8 +1,8 @@
 <template>
     <el-row class="h-full flex items-center justify-center shadow-md bg-white">
-        <el-col :span="5" class="bg-purple-200"></el-col>
+        <el-col :xl="6" :lg="2" :md="4" class="bg-purple-200"></el-col>
 
-        <el-col :span="13" class="flex h-full">
+        <el-col :xl="12" :lg="20" :md="18" class="flex h-full">
             <div class="flex items-center space-x-6 h-full">
                 <img src="https://bitpig-column.oss-cn-hangzhou.aliyuncs.com/AA12/190691488370262017.jpg" class="w-8" />
                 <div class="hidden md:flex xl:flex justify-center items-center text-md text-[#6c6c6c] font-bold h-full">
@@ -62,7 +62,7 @@
                 </el-dropdown>
             </div>
         </el-col>
-        <el-col :span="5" class="pl-6"></el-col>
+        <el-col :xl="6" :lg="2" :md="4" class="pl-6"></el-col>
     </el-row>
 </template>
 

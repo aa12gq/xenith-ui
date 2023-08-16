@@ -1,5 +1,23 @@
+<script lang="ts" setup>
+import * as pb from '@/stores/proto/app/article';
+import { formatRelativeTime, formatDate } from '@/utils/date';
+
+interface Props {
+    articles: pb.ListArticleReply;
+    [key: string]: any;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits(['handleArticleListPageChange']);
+
+const handleArticleListPageChange = (page: number) => {
+    emit('handleArticleListPageChange', page);
+};
+</script>
+
 <template>
-    <div class="w-full min-h-32" v-if="props.articles && props.articles.data">
+    <el-skeleton :rows="5" animated v-if="props.articles.count == 0" />
+    <div class="intro-x w-full min-h-32" v-else>
         <div class="space-y-3">
             <div class="rounded-lg shadow-sm bg-white" v-for="(item, index) in props.articles.data" :key="index">
                 <div class="p-3">
@@ -42,16 +60,7 @@
                     </div>
                 </div>
             </div>
+            <el-pagination background layout="prev, pager, next" :total="props.articles.total" v-model:current-page="props.articles.page" @current-change="handleArticleListPageChange" />
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import * as pb from '@/stores/proto/app/article';
-import { formatRelativeTime, formatDate } from '@/utils/date';
-interface Props {
-    articles: pb.ListArticleReply;
-    [key: string]: any;
-}
-const props = defineProps<Props>();
-</script>

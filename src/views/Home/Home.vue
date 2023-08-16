@@ -17,12 +17,12 @@
                     <el-tabs v-model="defaultTab">
                         <el-tab-pane label="推荐" name="first" class="h-full">
                             <!-- BEGIN: 推荐文章列表 -->
-                            <ArticleList :articles="articles" />
+                            <ArticleList :articles="articles" @handleArticleListPageChange="handlePageChange" />
                             <!-- END:   推荐文章列表 -->
                         </el-tab-pane>
                         <el-tab-pane label="最新" name="second">
                             <!-- BEGIN: 最新文章列表 -->
-                            <ArticleList :articles="articles" />
+                            <ArticleList :articles="articles" @handleArticleListPageChange="handlePageChange" />
                             <!-- END:   最新文章列表 -->
                         </el-tab-pane>
                     </el-tabs>
@@ -55,12 +55,25 @@ import { ElMessage } from 'element-plus';
 const defaultTab = ref<string>('');
 const articles = ref<pb.ListArticleReply>(pb.ListArticleReply.create());
 
+const handlePageChange = (page: number) => {
+    pageNum.value = page;
+    RefreshArticle();
+};
+
+const pageNum = ref(1);
 const RefreshArticle = () => {
+    const sortType = defaultTab.value === 'first' ? 'recommend' : 'latest';
+
     ListArticle(
-        pb.ListArticleRequest.create({ page: 1 }),
+        pb.ListArticleRequest.create({ page: pageNum.value }),
+        sortType,
         (d: pb.ListArticleReply) => {
-            articles.value = d;
             console.log('测试', d);
+            articles.value = pb.ListArticleReply.create();
+            setTimeout(() => {
+                articles.value = d;
+            }, 200);
+
             localStorage.setItem('selectedTab', defaultTab.value);
         },
         why => {
@@ -74,6 +87,7 @@ const RefreshArticle = () => {
 watch(defaultTab, newTab => {
     if (newTab) {
         localStorage.setItem('selectedTab', newTab);
+        RefreshArticle();
     }
 });
 
