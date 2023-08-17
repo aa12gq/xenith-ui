@@ -67,8 +67,8 @@ const RefreshArticle = () => {
     ListArticle(
         pb.ListArticleRequest.create({ page: pageNum.value }),
         sortType,
+        '',
         (d: pb.ListArticleReply) => {
-            console.log('测试', d);
             articles.value = pb.ListArticleReply.create();
             setTimeout(() => {
                 articles.value = d;
@@ -77,8 +77,8 @@ const RefreshArticle = () => {
             localStorage.setItem('selectedTab', defaultTab.value);
         },
         why => {
-            ElMessage.error(why);
-            console.log('获取文章列表失败', why);
+            const { message } = why.response.data;
+            ElMessage.error(message);
         }
     );
 };

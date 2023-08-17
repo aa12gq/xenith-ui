@@ -1,8 +1,9 @@
 import * as pb from '@/stores/proto/app/article';
+import { StringRules } from '@/stores/proto/third_party/validate/validate';
 import { http } from '@/utils/request';
 
-export function ListArticle(req: pb.ListArticleRequest, sortType: string, success: (value: pb.ListArticleReply) => void, fail?: (why: any) => void) {
-    const c = http<pb.ListArticleReply>(`get`, `/v1/articles?page=${req.page}&sortType=${sortType}`);
+export function ListArticle(req: pb.ListArticleRequest, sortType: string, queryString?: string, success: (value: pb.ListArticleReply) => void, fail?: (why: any) => void) {
+    const c = http<pb.ListArticleReply>(`get`, `/v1/articles?page=${req.page}&sortType=${sortType}&title=${queryString}`);
     c.then(re => {
         return success(re);
     }).catch(fail);

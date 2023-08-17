@@ -25,15 +25,55 @@
                         <span class="whitespace-nowrap">前端</span>
                     </div>
                 </div>
-                <el-autocomplete class="hidden xl:flex" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="社区搜索" @select="handleSelect">
+                <el-autocomplete class="hidden xl:flex" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="社区搜索" :loading="isLoading">
                     <template #suffix>
                         <el-icon class="el-input__icon">
                             <search />
                         </el-icon>
                     </template>
                     <template #default="{ item }">
-                        <div class="value">{{ item.value }}</div>
-                        <span class="link">{{ item.link }}</span>
+                        <div v-if="searchResultCount === 0">
+                            <div class="text-gray-500">搜索结果为0</div>
+                        </div>
+                        <div v-else class="p-3 w-[40rem] min-h-[10rem]">
+                            <h4 class="text-lg max-w-fit font-semibold underline text-[#265CA1] hover:text-orange-500" @click="$router.push(`articles/${item.id}`)">
+                                <span class="cursor-pointer">
+                                    {{ item.title }}
+                                </span>
+                            </h4>
+                            <div class="flex my-4 items-center">
+                                <div v-if="item?.author?.avatar" class="rounded-lg w-[3rem] h-[2.5rem] overflow-hidden">
+                                    <img class="w-full h-full object-contain" :src="item?.author?.avatar" />
+                                </div>
+                                <div class="w-full h-[2.5rem] whitespace-pre-wrap truncate">
+                                    <p class="text-gray-500 ml-4 flex-grow">{{ item.summary }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="mr-2 flex items-center text-[#21529C] hover:underline cursor-pointer" @click="$router.push(`/users/${item.author?.id}`)">
+                                    <span class="ml-1">{{ item?.author?.name }}</span>
+                                </div>
+                                <div>
+                                    <el-tooltip class="box-item" effect="dark" :content="'发布于 ' + formatDate(item?.createdDate!.seconds, true)" placement="top">
+                                        <span class="text-gray-500 cursor-pointer">
+                                            {{ formatRelativeTime(item?.createdDate!.seconds) }}
+                                        </span>
+                                    </el-tooltip>
+                                </div>
+                                <div class="ml-4 flex items-center">
+                                    <el-icon><View /></el-icon>
+                                    <span class="ml-1">{{ item.views }}</span>
+                                </div>
+                                <div class="mx-4 flex items-center">
+                                    <el-icon><ChatDotSquare /></el-icon>
+                                    <span class="ml-1">0</span>
+                                </div>
+                                <div class="mr-2 flex items-center">
+                                    <el-icon><Star /></el-icon>
+                                    <span class="ml-1">{{ item.links }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </template>
                 </el-autocomplete>
             </div>
@@ -72,53 +112,54 @@ import { onMounted, ref, provide } from 'vue';
 import router from '@/router';
 import { ucStore } from '@/stores/app/auth';
 import * as authPb from '@/stores/proto/app/auth';
+import { ListArticle } from '@/stores/app/article';
+import * as pb from '@/stores/proto/app/article';
+import { ElMessage } from 'element-plus';
+import { formatRelativeTime, formatDate } from '@/utils/date';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
 
 const state = ref('');
-interface LinkItem {
-    value: string;
-    link: string;
-}
+
+const serachResult = ref<pb.ListArticleReply>(pb.ListArticleReply.create());
 
 let timeout: number | undefined;
-const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-    const results = queryString ? links.value.filter(createFilter(queryString)) : links.value;
-
-    clearTimeout(timeout);
-    timeout = window.setTimeout(() => {
-        cb(results);
-    }, 3000 * Math.random());
+const noResults = ref(false);
+const isLoading = ref(false);
+const querySearchAsync = (queryString: string) => {
+    return new Promise((resolve, reject) => {
+        if (queryString) {
+            ListArticle(
+                pb.ListArticleRequest.create({ page: 1 }),
+                'latest',
+                queryString,
+                (d: pb.ListArticleReply) => {
+                    if (d.data && d.count === 0) {
+                        noResults.value = true;
+                        resolve([{ title: '搜索结果为0' }]);
+                    } else {
+                        noResults.value = false;
+                        resolve(d.data);
+                    }
+                },
+                why => {
+                    const { message } = why.response.data;
+                    ElMessage.error(message);
+                    reject(why);
+                }
+            );
+        } else {
+            resolve([]);
+        }
+    });
 };
 
-const createFilter = (queryString: string) => {
-    return (restaurant: LinkItem) => {
-        return restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
-    };
-};
-
-const handleSelect = (item: LinkItem) => {
-    console.log(item);
-};
-
-const loadAll = () => {
-    return [
-        { value: 'vue', link: 'https://github.com/vuejs/vue' },
-        { value: 'element', link: 'https://github.com/ElemeFE/element' },
-        { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
-        { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
-        { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
-        { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
-        { value: 'babel', link: 'https://github.com/babel/babel' },
-    ];
-};
-
-const links = ref<LinkItem[]>([]);
-
-onMounted(() => {
-    links.value = loadAll();
+const searchResultCount = computed(() => {
+    return serachResult.value.data ? serachResult.value.data.length : 0;
 });
+
+onMounted(() => {});
 </script>
 
 <style scoped>

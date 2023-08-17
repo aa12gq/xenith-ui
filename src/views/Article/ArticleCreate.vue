@@ -86,7 +86,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                     }, 500);
                 },
                 why => {
-                    console.log('why', why);
                     const { message } = why.response.data;
                     showMessage(message, 'error');
                 }
