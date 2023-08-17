@@ -32,7 +32,7 @@
                         </el-icon>
                     </template>
                     <template #default="{ item }">
-                        <div v-if="searchResultCount === 0">
+                        <div v-if="noResults">
                             <div class="text-gray-500">搜索结果为0</div>
                         </div>
                         <div v-else class="p-3 w-[40rem] min-h-[10rem]">
@@ -108,10 +108,8 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { onMounted, ref, provide } from 'vue';
 import router from '@/router';
 import { ucStore } from '@/stores/app/auth';
-import * as authPb from '@/stores/proto/app/auth';
 import { ListArticle } from '@/stores/app/article';
 import * as pb from '@/stores/proto/app/article';
 import { ElMessage } from 'element-plus';
@@ -119,14 +117,10 @@ import { formatRelativeTime, formatDate } from '@/utils/date';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
-
 const state = ref('');
-
-const serachResult = ref<pb.ListArticleReply>(pb.ListArticleReply.create());
-
-let timeout: number | undefined;
 const noResults = ref(false);
 const isLoading = ref(false);
+
 const querySearchAsync = (queryString: string) => {
     return new Promise((resolve, reject) => {
         if (queryString) {
@@ -154,10 +148,6 @@ const querySearchAsync = (queryString: string) => {
         }
     });
 };
-
-const searchResultCount = computed(() => {
-    return serachResult.value.data ? serachResult.value.data.length : 0;
-});
 
 onMounted(() => {});
 </script>
