@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="select-text w-full" v-html="renderedMarkdown" style="white-space: normal; word-break: break-word"></div>
+                    <div class="select-text w-full pt-4" v-html="renderedMarkdown" style="white-space: normal; word-break: break-word"></div>
                 </el-row>
                 <!-- END: 博文标题 -->
             </el-col>
