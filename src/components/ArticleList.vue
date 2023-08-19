@@ -46,7 +46,7 @@ const isNewArticle = (createdDateSeconds: bigint) => {
                             <p class="text-gray-500 ml-4 flex-grow">{{ item.summary }}</p>
                         </div>
                     </div>
-                    <div class="flex items-center text-[#7F8694]">
+                    <div class="flex items-center text-sm text-[#7F8694]">
                         <div class="mr-2 flex items-center hover:text-[#21529C] hover:underline cursor-pointer" @click.stop="$router.push(`/users/${item.author?.id}`)">
                             <span class="ml-1">{{ item?.author?.name }}</span>
                         </div>
