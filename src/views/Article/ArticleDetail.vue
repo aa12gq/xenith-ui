@@ -155,18 +155,27 @@ let md = new MarkdownIt({
 
 const Article = ref<pb.Article>(pb.Article.create());
 
+
+
 const fetchArticle = (id: string) => {
     const parsedArticleId = BigInt(id);
 
     GetArticle(
         pb.GetArticleRequest.create({ id: parsedArticleId }),
         (d: pb.GetArticleReply) => {
-            Article.value = d.article!;
-            markdown.value = d.article?.content || '';
-            renderMarkdown();
+            Article.value = pb.Article.create();
+            setTimeout(() => {
+                Article.value = d.article!;
+                markdown.value = d.article?.content || '';
+                renderMarkdown();
+            }, 100);
         },
         why => {
-            console.log('获取文章详情失败', why);
+            Article.value = pb.Article.create();
+            renderedMarkdown.value = '';
+            markdown.value = '';
+            const { message } = why.response.data;
+            showMessage(message, 'error');
         }
     );
 };
