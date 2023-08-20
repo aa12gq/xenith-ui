@@ -29,7 +29,7 @@ coverage
 
 
 # generate proto js
-src/stores/proto/**/*.ts
+# src/stores/proto/**/*.ts
 
 # Vite config
 vite.config.ts
