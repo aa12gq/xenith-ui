@@ -40,6 +40,24 @@ const routes = [
                     },
                 ],
             },
+            {
+                path: '/users/settings',
+                component: () => import('@/views/Setting/Home.vue'),
+                children: [
+                    {
+                        path: '/users/settings/edit',
+                        component: () => import('@/views/Setting/Profile.vue'),
+                    },
+                    {
+                        path: '/users/settings/edit_avatar',
+                        component: () => import('@/views/Setting/Avatar.vue'),
+                    },
+                    {
+                        path: '/users/settings/edit_password',
+                        component: () => import('@/views/Setting/Password.vue'),
+                    },
+                ],
+            },
         ],
     },
 ];

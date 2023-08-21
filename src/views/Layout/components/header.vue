@@ -94,8 +94,8 @@
                         <el-dropdown-menu>
                             <el-dropdown-item @click="$router.push('/articles/create')">新建博文</el-dropdown-item>
                             <el-dropdown-item>我的博客</el-dropdown-item>
-                            <el-dropdown-item @click="router.push(`/users/${userInfo.id}`)">个人中心</el-dropdown-item>
-                            <el-dropdown-item>编辑资料</el-dropdown-item>
+                            <el-dropdown-item @click="$router.push(`/users/${userInfo.id}`)">个人中心</el-dropdown-item>
+                            <el-dropdown-item @click="$router.push('/users/settings/edit')">编辑资料</el-dropdown-item>
                             <el-dropdown-item @click="store.logout()">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
