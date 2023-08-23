@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import type { UploadProps } from 'element-plus';
+import { getDaysTs } from '@/utils/date';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
@@ -15,10 +16,10 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
     if (rawFile.type !== 'image/jpeg') {
-        ElMessage.error('Avatar picture must be JPG format!');
+        ElMessage.error('头像图片必须为jpg格式!');
         return false;
     } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.error('Avatar picture size can not exceed 2MB!');
+        ElMessage.error('头像图片大小不能超过2mb!');
         return false;
     }
     return true;
@@ -41,7 +42,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
             <span>请上传正常的人物头像，真人或卡通皆可</span>
             <span>上传闪烁、奇异、违法、色情头像，情节严重者将会被禁言处理。</span>
         </div>
-        <el-upload class="avatar-uploader" action="http://47.100.118.236:9100/v1/upload" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+        <el-upload class="avatar-uploader" action="/api/v1/upload" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <template #tip>
                 <div>请选择图片：</div>
             </template>

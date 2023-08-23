@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 import { setToken, removeToken } from '@/utils/auth';
 import { toast, showMessage } from '@/utils/toast';
 import router from '@/router';
+import { userInfo } from 'os';
 
 const ST_KEY = 'uc_store';
 const PERSIST_STORAGE = localStorage;
@@ -18,6 +19,7 @@ export const ucStore = defineStore(
                 res => {
                     setToken((res as any)?.token);
                     getinfo(res.uid);
+                    toast('登录成功');
                     setDialogModal(false);
                 },
                 why => {
@@ -31,8 +33,6 @@ export const ucStore = defineStore(
             GetUserInfo(
                 uid,
                 res => {
-                    console.log('test', res);
-                    toast('登录成功');
                     userInfo.value = res.userInfo!;
                 },
                 why => {
@@ -50,10 +50,24 @@ export const ucStore = defineStore(
             toast('退出成功');
         };
 
+        const updateuser = (req: pb.UpdateUserInfoRequest) => {
+            UpdateUserInfo(
+                req,
+                (d: pb.UpdateUserInfoReply) => {
+                    getinfo(req.id);
+                    toast('更新成功');
+                },
+                why => {
+                    const { message } = why.response.data;
+                    showMessage(message, 'error');
+                }
+            );
+        };
+
         const setDialogModal = (value: boolean) => {
             isDialogVisible.value = value;
         };
-        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal };
+        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal, updateuser };
     },
     {
         persist: true,
@@ -69,6 +83,13 @@ export function Login(req: pb.LoginByPasswordRequest, success: (value: pb.LoginB
 
 export function GetUserInfo(req: bigint, success: (value: pb.GetUserInfoReply) => void, fail?: (why: any) => void) {
     const c = http<pb.GetUserInfoReply>('get', `/v1/users/${req}`, {});
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}
+
+export function UpdateUserInfo(req: pb.UpdateUserInfoRequest, success: (value: pb.UpdateUserInfoReply) => void, fail?: (why: any) => void) {
+    const c = http<pb.UpdateUserInfoReply>('put', `/v1/users`, req);
     c.then(re => {
         return success(re);
     }).catch(fail);

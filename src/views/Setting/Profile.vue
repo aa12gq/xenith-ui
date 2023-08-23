@@ -7,7 +7,7 @@
             </h2>
         </div>
         <div>
-            <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign" style="max-width: 500px">
+            <el-form :label-position="labelPosition" label-width="100px" :model="form" style="max-width: 500px">
                 <el-form-item label="用户名">
                     <el-input v-model="form.userName" class="relative" />
                     <span class="absolute -right-[18rem] text-[#596064]">用户名只能修改两次，请谨慎操作</span>
@@ -37,7 +37,7 @@
                     <span class="absolute -right-[32rem] text-[#596064]">请一句话介绍你自己，大部分情况下会在你的头像和名字旁边显示</span>
                 </el-form-item>
             </el-form>
-            <el-button type="primary">应用修改</el-button>
+            <el-button type="primary" @click="submit()">应用修改</el-button>
         </div>
     </div>
 </template>
@@ -47,17 +47,24 @@ import { ucStore } from '@/stores/app/auth';
 import { storeToRefs } from 'pinia';
 import * as pb from '@/stores/proto/app/auth';
 import { GetUserInfo } from '@/stores/app/auth';
+import { TimestampFromDate, formatRelativeTime, formatDate } from '@/utils/date';
 
+const birthday = ref('');
 const labelPosition = ref('top');
-const form = ref<pb.UserInfo>(pb.UserInfo.create());
+const form = reactive<pb.UpdateUserInfoRequest>(pb.UpdateUserInfoRequest.create());
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
 
 const fetchUserInfo = () => {
     GetUserInfo(BigInt(userInfo.value.id), reply => {
-        form.value = reply.userInfo!;
+        Object.assign(form, reply.userInfo);
     });
 };
+
+const submit = () => {
+    store.updateuser(pb.UpdateUserInfoRequest.create({ ...form, id: String(form.id) }));
+};
+
 onMounted(() => {
     fetchUserInfo();
 });
