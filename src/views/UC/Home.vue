@@ -38,11 +38,6 @@ watch(router.currentRoute, (to, from) => {
                         <el-icon><User /></el-icon>
                         <span>基本资料</span>
                     </el-menu-item>
-                    <!-- <el-menu-item index="3" @click="$router.push(`/users/${userId}/articles`)" :class="{ 'selected-menu': $route.path === `/users/${userId}/articles` }">
-                        <el-icon><document /></el-icon>
-                        <span v-if="userId == Number(userInfo.id)">我的博文</span>
-                        <span v-else>Ta的博文</span>
-                    </el-menu-item> -->
                 </el-menu>
             </div>
 

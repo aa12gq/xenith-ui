@@ -397,9 +397,9 @@ export interface UpdateUserInfoRequest {
     /**
      * @inject_tag: json:"id"
      *
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: uint64 id = 1;
      */
-    id: string;
+    id: bigint;
     /**
      * @inject_tag: json:"userName"
      *
@@ -454,13 +454,6 @@ export interface UpdateUserInfoRequest {
      * @generated from protobuf field: com.auth.v1.Gender gender = 11;
      */
     gender: Gender;
-    /**
-     * 注册时间
-     * @inject_tag: json:"createdDate"
-     *
-     * @generated from protobuf field: google.protobuf.Timestamp created_date = 12;
-     */
-    createdDate?: Timestamp;
 }
 /**
  * @generated from protobuf message com.auth.v1.UpdateUserInfoReply
@@ -1567,7 +1560,7 @@ export const GetUserInfoReply = new GetUserInfoReply$Type();
 class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
     constructor() {
         super("com.auth.v1.UpdateUserInfoRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 2, name: "user_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "real_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "phone", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1576,12 +1569,11 @@ class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
             { no: 8, name: "personal_profile", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 10, name: "avatar", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 11, name: "gender", kind: "enum", T: () => ["com.auth.v1.Gender", Gender] },
-            { no: 12, name: "created_date", kind: "message", T: () => Timestamp }
+            { no: 11, name: "gender", kind: "enum", T: () => ["com.auth.v1.Gender", Gender] }
         ]);
     }
     create(value?: PartialMessage<UpdateUserInfoRequest>): UpdateUserInfoRequest {
-        const message = { id: "", userName: "", realName: "", phone: "", city: "", age: 0, personalProfile: "", email: "", avatar: "", gender: 0 };
+        const message = { id: 0n, userName: "", realName: "", phone: "", city: "", age: 0, personalProfile: "", email: "", avatar: "", gender: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UpdateUserInfoRequest>(this, message, value);
@@ -1592,8 +1584,8 @@ class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
+                case /* uint64 id */ 1:
+                    message.id = reader.uint64().toBigInt();
                     break;
                 case /* string user_name */ 2:
                     message.userName = reader.string();
@@ -1622,9 +1614,6 @@ class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
                 case /* com.auth.v1.Gender gender */ 11:
                     message.gender = reader.int32();
                     break;
-                case /* google.protobuf.Timestamp created_date */ 12:
-                    message.createdDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdDate);
-                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1637,9 +1626,9 @@ class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
         return message;
     }
     internalBinaryWrite(message: UpdateUserInfoRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* uint64 id = 1; */
+        if (message.id !== 0n)
+            writer.tag(1, WireType.Varint).uint64(message.id);
         /* string user_name = 2; */
         if (message.userName !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.userName);
@@ -1667,9 +1656,6 @@ class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
         /* com.auth.v1.Gender gender = 11; */
         if (message.gender !== 0)
             writer.tag(11, WireType.Varint).int32(message.gender);
-        /* google.protobuf.Timestamp created_date = 12; */
-        if (message.createdDate)
-            Timestamp.internalBinaryWrite(message.createdDate, writer.tag(12, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

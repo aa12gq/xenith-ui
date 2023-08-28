@@ -62,7 +62,7 @@ const fetchUserInfo = () => {
 };
 
 const submit = () => {
-    store.updateuser(pb.UpdateUserInfoRequest.create({ ...form, id: String(form.id) }));
+    store.updateuser(form);
 };
 
 onMounted(() => {

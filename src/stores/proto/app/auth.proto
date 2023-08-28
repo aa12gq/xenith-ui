@@ -161,7 +161,7 @@ message GetUserInfoReply {
 
 message UpdateUserInfoRequest {
   // @inject_tag: json:"id"
-  string id = 1;
+  uint64 id = 1;
   // @inject_tag: json:"userName"
   string user_name = 2;
   // @inject_tag: json:"realName"
@@ -180,9 +180,6 @@ message UpdateUserInfoRequest {
   string avatar = 10;
   // @inject_tag: json:"gender"
   Gender gender = 11;
-  // 注册时间
- // @inject_tag: json:"createdDate"
-  google.protobuf.Timestamp created_date = 12;
 }
 
 message UpdateUserInfoReply {
