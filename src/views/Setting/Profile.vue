@@ -47,7 +47,6 @@ import { ucStore } from '@/stores/app/auth';
 import { storeToRefs } from 'pinia';
 import * as pb from '@/stores/proto/app/auth';
 import { GetUserInfo } from '@/stores/app/auth';
-import { TimestampFromDate, formatRelativeTime, formatDate } from '@/utils/date';
 
 const birthday = ref('');
 const labelPosition = ref('top');
