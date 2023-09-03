@@ -4,8 +4,6 @@ import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import type { UploadProps } from 'element-plus';
-import { getDaysTs } from '@/utils/date';
-import { fa } from 'element-plus/es/locale';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
