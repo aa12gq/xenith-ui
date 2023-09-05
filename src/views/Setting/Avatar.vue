@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import * as pb from '@/stores/proto/app/auth';
 import { ucStore } from '@/stores/app/auth';
+import { UpdateUserAvatarRequest } from '@/stores/proto/app/auth';
 import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import type { UploadProps } from 'element-plus';
+import { id } from 'element-plus/es/locale';
 
 const store = ucStore();
 const { userInfo } = storeToRefs(store);
@@ -11,6 +14,8 @@ const { userInfo } = storeToRefs(store);
 const imageUrl = ref('');
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
     imageUrl.value = URL.createObjectURL(uploadFile.raw!);
+    const { url } = response;
+    store.updateuserAvatar(pb.UpdateUserAvatarRequest.create({ id: userInfo.value.id, avatar: url }));
 };
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
@@ -52,7 +57,7 @@ const handleMouseleave = () => {
         </div>
         <el-upload class="avatar-uploader" action="/api/v1/upload" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <div class="relative w-[20rem]" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
-                <img v-if="userInfo.avatar" :src="userInfo.avatar" class="w-full rounded-full" />
+                <img v-if="userInfo.avatar" :src="userInfo.avatar" class="w-full rounded-full h-[20rem]" />
                 <div v-if="userInfo.avatar" class="absolute inset-0 flex justify-center items-center bg-white text-slate-100 text-4xl bg-opacity-60" v-show="isMouseOver">点击重新上传</div>
                 <el-icon v-else class="absolute bottom-0 right-0"><Plus /></el-icon>
             </div>

@@ -1,4 +1,5 @@
 import * as pb from '@/stores/proto/app/auth';
+import { Success } from '@/stores/proto/app/article';
 import { http } from '@/utils/request';
 import { defineStore } from 'pinia';
 import { setToken, removeToken } from '@/utils/auth';
@@ -64,10 +65,24 @@ export const ucStore = defineStore(
             );
         };
 
+        const updateuserAvatar = (req: pb.UpdateUserAvatarRequest) => {
+            UpdateUserAvatar(
+                req,
+                (d: pb.Success) => {
+                    getinfo(req.id);
+                    toast(d.message);
+                },
+                why => {
+                    const { message } = why.response.data;
+                    showMessage(message, 'error');
+                }
+            );
+        };
+
         const setDialogModal = (value: boolean) => {
             isDialogVisible.value = value;
         };
-        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal, updateuser };
+        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal, updateuser, updateuserAvatar };
     },
     {
         persist: true,
@@ -90,6 +105,13 @@ export function GetUserInfo(req: bigint, success: (value: pb.GetUserInfoReply) =
 
 export function UpdateUserInfo(req: pb.UpdateUserInfoRequest, success: (value: pb.UpdateUserInfoReply) => void, fail?: (why: any) => void) {
     const c = http<pb.UpdateUserInfoReply>('put', `/v1/users`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}
+
+export function UpdateUserAvatar(req: pb.UpdateUserAvatarRequest, success: (value: pb.success) => void, fail?: (why: any) => void) {
+    const c = http<pb.success>('put', `/v1/users/avatar`, req);
     c.then(re => {
         return success(re);
     }).catch(fail);

@@ -467,6 +467,19 @@ export interface UpdateUserInfoReply {
     userInfo?: UserInfo;
 }
 /**
+ * @generated from protobuf message com.auth.v1.UpdateUserAvatarRequest
+ */
+export interface UpdateUserAvatarRequest {
+    /**
+     * @generated from protobuf field: uint64 id = 1;
+     */
+    id: bigint;
+    /**
+     * @generated from protobuf field: string avatar = 2;
+     */
+    avatar: string;
+}
+/**
  * @generated from protobuf enum com.auth.v1.Gender
  */
 export enum Gender {
@@ -1713,3 +1726,57 @@ class UpdateUserInfoReply$Type extends MessageType<UpdateUserInfoReply> {
  * @generated MessageType for protobuf message com.auth.v1.UpdateUserInfoReply
  */
 export const UpdateUserInfoReply = new UpdateUserInfoReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateUserAvatarRequest$Type extends MessageType<UpdateUserAvatarRequest> {
+    constructor() {
+        super("com.auth.v1.UpdateUserAvatarRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 2, name: "avatar", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateUserAvatarRequest>): UpdateUserAvatarRequest {
+        const message = { id: 0n, avatar: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateUserAvatarRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateUserAvatarRequest): UpdateUserAvatarRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint64 id */ 1:
+                    message.id = reader.uint64().toBigInt();
+                    break;
+                case /* string avatar */ 2:
+                    message.avatar = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateUserAvatarRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint64 id = 1; */
+        if (message.id !== 0n)
+            writer.tag(1, WireType.Varint).uint64(message.id);
+        /* string avatar = 2; */
+        if (message.avatar !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.avatar);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.auth.v1.UpdateUserAvatarRequest
+ */
+export const UpdateUserAvatarRequest = new UpdateUserAvatarRequest$Type();
