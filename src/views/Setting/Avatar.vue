@@ -42,7 +42,7 @@ const handleMouseleave = () => {
 <template>
     <div class="bg-white h-full p-6">
         <div class="border-b w-full">
-            <h2 class="flex items-center space-x-2 text-[#596064]">
+            <h2 class="flex items-center space-x-2 text-[#596064]">∫、
                 <el-icon><Edit /></el-icon>
                 <span>修改头像</span>
             </h2>

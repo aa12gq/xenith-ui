@@ -43,3 +43,24 @@ export function ListArticleForUser(req: pb.ListArticlesForUserRequest, success: 
         return success(re);
     }).catch(fail);
 }
+
+// export function CheckLikeStatus(req: pb.ListArticlesForUserRequest, success: (value: pb.ListArticlesForUserReply) => void, fail?: (why: any) => void) {
+//   const c = http<pb.ListArticlesForUserReply>('get', `/v1/users/${req.userId}/articles?page=${req.page}`);
+//   c.then(re => {
+//       return success(re);
+//   }).catch(fail);
+// }
+
+export function LikeArticle(req: pb.LikeArticleRequest, success: (value: pb.LikeArticleReply) => void, fail?: (why: any) => void) {
+    const c = http<pb.LikeArticleReply>('post', `/v1/artcles/like`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}
+
+export function ViewArticle(req: pb.UpdateArticleViewsRequest, success: (value: pb.UpdateArticleViewsReply) => void, fail?: (why: any) => void) {
+    const c = http<pb.LikeArticleReply>('post', `/v1/articles/view`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}

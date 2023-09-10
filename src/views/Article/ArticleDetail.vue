@@ -25,7 +25,7 @@
                             <span class="ml-1">0</span>
                             <span class="mx-2">/</span>
                             <el-icon><Star /></el-icon>
-                            <span class="ml-1">{{ Article.links }}</span>
+                            <span class="ml-1">{{ Article.likes }}</span>
                             <span class="mx-2">/</span>
                             <el-tooltip
                                 v-if="Article && Article.createdDate"
@@ -118,7 +118,7 @@
 <script lang="ts" setup>
 import MarkdownIt from 'markdown-it';
 import * as pb from '@/stores/proto/app/article';
-import { GetArticle, DeleteArticle } from '@/stores/app/article';
+import { GetArticle, DeleteArticle, ViewArticle } from '@/stores/app/article';
 import { useRouter } from 'vue-router';
 import { formatRelativeTime, formatDate } from '@/utils/date';
 import hljs from 'highlight.js';
@@ -155,8 +155,6 @@ let md = new MarkdownIt({
 
 const Article = ref<pb.Article>(pb.Article.create());
 
-
-
 const fetchArticle = (id: string) => {
     const parsedArticleId = BigInt(id);
 
@@ -168,6 +166,7 @@ const fetchArticle = (id: string) => {
                 Article.value = d.article!;
                 markdown.value = d.article?.content || '';
                 renderMarkdown();
+                viewArticle();
             }, 100);
         },
         why => {
@@ -178,6 +177,21 @@ const fetchArticle = (id: string) => {
             showMessage(message, 'error');
         }
     );
+};
+
+const viewArticle = () => {
+    if (Article.value.id) {
+        ViewArticle(
+            pb.UpdateArticleViewsRequest.create({ id: Article.value.id }),
+            (reply: pb.UpdateArticleViewsReply) => {
+                // Article.value.views = reply.views;
+            },
+            why => {
+                const { message } = why.response.data;
+                showMessage(message, 'error');
+            }
+        );
+    }
 };
 
 onMounted(() => {

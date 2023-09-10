@@ -480,6 +480,31 @@ export interface UpdateUserAvatarRequest {
     avatar: string;
 }
 /**
+ * @generated from protobuf message com.auth.v1.UpdateUserPasswordRequest
+ */
+export interface UpdateUserPasswordRequest {
+    /**
+     * @generated from protobuf field: uint64 id = 1;
+     */
+    id: bigint;
+    /**
+     * @generated from protobuf field: string password = 2;
+     */
+    password: string;
+    /**
+     * @inject_tag: json:"newPassword"
+     *
+     * @generated from protobuf field: string new_password = 3;
+     */
+    newPassword: string;
+    /**
+     * @inject_tag: json:"newPasswordConfirm"
+     *
+     * @generated from protobuf field: string new_password_confirm = 4;
+     */
+    newPasswordConfirm: string;
+}
+/**
  * @generated from protobuf enum com.auth.v1.Gender
  */
 export enum Gender {
@@ -1780,3 +1805,71 @@ class UpdateUserAvatarRequest$Type extends MessageType<UpdateUserAvatarRequest> 
  * @generated MessageType for protobuf message com.auth.v1.UpdateUserAvatarRequest
  */
 export const UpdateUserAvatarRequest = new UpdateUserAvatarRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateUserPasswordRequest$Type extends MessageType<UpdateUserPasswordRequest> {
+    constructor() {
+        super("com.auth.v1.UpdateUserPasswordRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "new_password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "new_password_confirm", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateUserPasswordRequest>): UpdateUserPasswordRequest {
+        const message = { id: 0n, password: "", newPassword: "", newPasswordConfirm: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateUserPasswordRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateUserPasswordRequest): UpdateUserPasswordRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint64 id */ 1:
+                    message.id = reader.uint64().toBigInt();
+                    break;
+                case /* string password */ 2:
+                    message.password = reader.string();
+                    break;
+                case /* string new_password */ 3:
+                    message.newPassword = reader.string();
+                    break;
+                case /* string new_password_confirm */ 4:
+                    message.newPasswordConfirm = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateUserPasswordRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint64 id = 1; */
+        if (message.id !== 0n)
+            writer.tag(1, WireType.Varint).uint64(message.id);
+        /* string password = 2; */
+        if (message.password !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.password);
+        /* string new_password = 3; */
+        if (message.newPassword !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.newPassword);
+        /* string new_password_confirm = 4; */
+        if (message.newPasswordConfirm !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.newPasswordConfirm);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.auth.v1.UpdateUserPasswordRequest
+ */
+export const UpdateUserPasswordRequest = new UpdateUserPasswordRequest$Type();

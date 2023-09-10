@@ -52,11 +52,11 @@ export interface Article {
     content: string;
     /**
      * 博文点赞数量
-     * @inject_tag: json:"links"
+     * @inject_tag: json:"likes"
      *
-     * @generated from protobuf field: int32 links = 10;
+     * @generated from protobuf field: int32 likes = 10;
      */
-    links: number;
+    likes: number;
     /**
      * 博文浏览量
      * @inject_tag: json:"views"
@@ -351,11 +351,11 @@ export interface ListArticlesForUserReply_Article {
     summary: string;
     /**
      * 博文点赞数量
-     * @inject_tag: json:"links"
+     * @inject_tag: json:"likes"
      *
-     * @generated from protobuf field: int32 links = 10;
+     * @generated from protobuf field: int32 likes = 10;
      */
-    links: number;
+    likes: number;
     /**
      * 博文浏览量
      * @inject_tag: json:"views"
@@ -377,6 +377,42 @@ export interface ListArticlesForUserReply_Article {
      * @generated from protobuf field: google.protobuf.Timestamp updated_date = 14;
      */
     updatedDate?: Timestamp;
+}
+/**
+ * @generated from protobuf message com.article.v1.LikeArticleRequest
+ */
+export interface LikeArticleRequest {
+    /**
+     * @generated from protobuf field: uint64 id = 1;
+     */
+    id: bigint;
+}
+/**
+ * @generated from protobuf message com.article.v1.UpdateArticleViewsRequest
+ */
+export interface UpdateArticleViewsRequest {
+    /**
+     * @generated from protobuf field: uint64 id = 1;
+     */
+    id: bigint;
+}
+/**
+ * @generated from protobuf message com.article.v1.UpdateArticleViewsReply
+ */
+export interface UpdateArticleViewsReply {
+    /**
+     * @generated from protobuf field: int32 views = 1;
+     */
+    views: number;
+}
+/**
+ * @generated from protobuf message com.article.v1.LikeArticleReply
+ */
+export interface LikeArticleReply {
+    /**
+     * @generated from protobuf field: int32 likes = 1;
+     */
+    likes: number;
 }
 /**
  * @generated from protobuf enum com.article.v1.ArticleStatus
@@ -404,7 +440,7 @@ class Article$Type extends MessageType<Article> {
             { no: 7, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "summary", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "links", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "likes", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 11, name: "views", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 12, name: "status", kind: "enum", T: () => ["com.article.v1.ArticleStatus", ArticleStatus] },
             { no: 13, name: "created_date", kind: "message", T: () => Timestamp },
@@ -412,7 +448,7 @@ class Article$Type extends MessageType<Article> {
         ]);
     }
     create(value?: PartialMessage<Article>): Article {
-        const message = { id: 0n, title: "", summary: "", content: "", links: 0, views: 0, status: 0 };
+        const message = { id: 0n, title: "", summary: "", content: "", likes: 0, views: 0, status: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Article>(this, message, value);
@@ -438,8 +474,8 @@ class Article$Type extends MessageType<Article> {
                 case /* string content */ 9:
                     message.content = reader.string();
                     break;
-                case /* int32 links */ 10:
-                    message.links = reader.int32();
+                case /* int32 likes */ 10:
+                    message.likes = reader.int32();
                     break;
                 case /* int32 views */ 11:
                     message.views = reader.int32();
@@ -480,9 +516,9 @@ class Article$Type extends MessageType<Article> {
         /* string content = 9; */
         if (message.content !== "")
             writer.tag(9, WireType.LengthDelimited).string(message.content);
-        /* int32 links = 10; */
-        if (message.links !== 0)
-            writer.tag(10, WireType.Varint).int32(message.links);
+        /* int32 likes = 10; */
+        if (message.likes !== 0)
+            writer.tag(10, WireType.Varint).int32(message.likes);
         /* int32 views = 11; */
         if (message.views !== 0)
             writer.tag(11, WireType.Varint).int32(message.views);
@@ -1160,14 +1196,14 @@ class ListArticlesForUserReply_Article$Type extends MessageType<ListArticlesForU
             { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 7, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "summary", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "links", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "likes", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 11, name: "views", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 13, name: "created_date", kind: "message", T: () => Timestamp },
             { no: 14, name: "updated_date", kind: "message", T: () => Timestamp }
         ]);
     }
     create(value?: PartialMessage<ListArticlesForUserReply_Article>): ListArticlesForUserReply_Article {
-        const message = { id: 0n, title: "", summary: "", links: 0, views: 0 };
+        const message = { id: 0n, title: "", summary: "", likes: 0, views: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<ListArticlesForUserReply_Article>(this, message, value);
@@ -1187,8 +1223,8 @@ class ListArticlesForUserReply_Article$Type extends MessageType<ListArticlesForU
                 case /* string summary */ 8:
                     message.summary = reader.string();
                     break;
-                case /* int32 links */ 10:
-                    message.links = reader.int32();
+                case /* int32 likes */ 10:
+                    message.likes = reader.int32();
                     break;
                 case /* int32 views */ 11:
                     message.views = reader.int32();
@@ -1220,9 +1256,9 @@ class ListArticlesForUserReply_Article$Type extends MessageType<ListArticlesForU
         /* string summary = 8; */
         if (message.summary !== "")
             writer.tag(8, WireType.LengthDelimited).string(message.summary);
-        /* int32 links = 10; */
-        if (message.links !== 0)
-            writer.tag(10, WireType.Varint).int32(message.links);
+        /* int32 likes = 10; */
+        if (message.likes !== 0)
+            writer.tag(10, WireType.Varint).int32(message.likes);
         /* int32 views = 11; */
         if (message.views !== 0)
             writer.tag(11, WireType.Varint).int32(message.views);
@@ -1242,3 +1278,191 @@ class ListArticlesForUserReply_Article$Type extends MessageType<ListArticlesForU
  * @generated MessageType for protobuf message com.article.v1.ListArticlesForUserReply.Article
  */
 export const ListArticlesForUserReply_Article = new ListArticlesForUserReply_Article$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class LikeArticleRequest$Type extends MessageType<LikeArticleRequest> {
+    constructor() {
+        super("com.article.v1.LikeArticleRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<LikeArticleRequest>): LikeArticleRequest {
+        const message = { id: 0n };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<LikeArticleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: LikeArticleRequest): LikeArticleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint64 id */ 1:
+                    message.id = reader.uint64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: LikeArticleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint64 id = 1; */
+        if (message.id !== 0n)
+            writer.tag(1, WireType.Varint).uint64(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.article.v1.LikeArticleRequest
+ */
+export const LikeArticleRequest = new LikeArticleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateArticleViewsRequest$Type extends MessageType<UpdateArticleViewsRequest> {
+    constructor() {
+        super("com.article.v1.UpdateArticleViewsRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateArticleViewsRequest>): UpdateArticleViewsRequest {
+        const message = { id: 0n };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateArticleViewsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateArticleViewsRequest): UpdateArticleViewsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint64 id */ 1:
+                    message.id = reader.uint64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateArticleViewsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint64 id = 1; */
+        if (message.id !== 0n)
+            writer.tag(1, WireType.Varint).uint64(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.article.v1.UpdateArticleViewsRequest
+ */
+export const UpdateArticleViewsRequest = new UpdateArticleViewsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateArticleViewsReply$Type extends MessageType<UpdateArticleViewsReply> {
+    constructor() {
+        super("com.article.v1.UpdateArticleViewsReply", [
+            { no: 1, name: "views", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateArticleViewsReply>): UpdateArticleViewsReply {
+        const message = { views: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateArticleViewsReply>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateArticleViewsReply): UpdateArticleViewsReply {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 views */ 1:
+                    message.views = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateArticleViewsReply, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 views = 1; */
+        if (message.views !== 0)
+            writer.tag(1, WireType.Varint).int32(message.views);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.article.v1.UpdateArticleViewsReply
+ */
+export const UpdateArticleViewsReply = new UpdateArticleViewsReply$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class LikeArticleReply$Type extends MessageType<LikeArticleReply> {
+    constructor() {
+        super("com.article.v1.LikeArticleReply", [
+            { no: 1, name: "likes", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<LikeArticleReply>): LikeArticleReply {
+        const message = { likes: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<LikeArticleReply>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: LikeArticleReply): LikeArticleReply {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 likes */ 1:
+                    message.likes = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: LikeArticleReply, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 likes = 1; */
+        if (message.likes !== 0)
+            writer.tag(1, WireType.Varint).int32(message.likes);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message com.article.v1.LikeArticleReply
+ */
+export const LikeArticleReply = new LikeArticleReply$Type();

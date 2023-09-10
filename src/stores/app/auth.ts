@@ -79,6 +79,22 @@ export const ucStore = defineStore(
             );
         };
 
+        const updatePassword = (req: pb.UpdateUserPasswordRequest) => {
+            UpdateUserPassword(
+                req,
+                (d: pb.Success) => {
+                    userInfo.value = pb.UserInfo.create({});
+                    localStorage.removeItem(ST_KEY);
+                    setDialogModal(true);
+                    toast(d.message);
+                },
+                why => {
+                    const { message } = why.response.data;
+                    showMessage(message, 'error');
+                }
+            );
+        };
+
         const setDialogModal = (value: boolean) => {
             isDialogVisible.value = value;
         };
@@ -112,6 +128,13 @@ export function UpdateUserInfo(req: pb.UpdateUserInfoRequest, success: (value: p
 
 export function UpdateUserAvatar(req: pb.UpdateUserAvatarRequest, success: (value: pb.success) => void, fail?: (why: any) => void) {
     const c = http<pb.success>('put', `/v1/users/avatar`, req);
+    c.then(re => {
+        return success(re);
+    }).catch(fail);
+}
+
+export function UpdateUserPassword(req: pb.UpdateUserPasswordRequest, success: (value: pb.success) => void, fail?: (why: any) => void) {
+    const c = http<pb.success>('put', `/v1/users/password`, req);
     c.then(re => {
         return success(re);
     }).catch(fail);
