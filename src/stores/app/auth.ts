@@ -80,15 +80,20 @@ export const ucStore = defineStore(
         };
 
         const updatePassword = (req: pb.UpdateUserPasswordRequest) => {
+            req.id = userInfo.value.id;
             UpdateUserPassword(
                 req,
                 (d: pb.Success) => {
                     userInfo.value = pb.UserInfo.create({});
                     localStorage.removeItem(ST_KEY);
-                    setDialogModal(true);
                     toast(d.message);
+                    setTimeout(() => {
+                        setDialogModal(true);
+                    }, 500);
                 },
                 why => {
+                    console.log(why);
+
                     const { message } = why.response.data;
                     showMessage(message, 'error');
                 }
@@ -98,7 +103,7 @@ export const ucStore = defineStore(
         const setDialogModal = (value: boolean) => {
             isDialogVisible.value = value;
         };
-        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal, updateuser, updateuserAvatar };
+        return { userInfo, isDialogVisible, login, getinfo, logout, setDialogModal, updateuser, updateuserAvatar, updatePassword };
     },
     {
         persist: true,

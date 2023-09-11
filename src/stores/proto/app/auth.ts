@@ -484,6 +484,8 @@ export interface UpdateUserAvatarRequest {
  */
 export interface UpdateUserPasswordRequest {
     /**
+     * @inject_tag: json:"id"
+     *
      * @generated from protobuf field: uint64 id = 1;
      */
     id: bigint;

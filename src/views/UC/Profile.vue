@@ -97,7 +97,7 @@ const isLastItem = (index: number) => index === articles.value.count - 1;
                                     </div>
                                     <div class="mr-2 flex items-center">
                                         <el-icon><Star /></el-icon>
-                                        <span class="ml-1">{{ item.links }}</span>
+                                        <span class="ml-1">{{ item.likes }}</span>
                                     </div>
                                 </div>
                             </div>
